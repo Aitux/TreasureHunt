@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class NewGame {
-
+	// verification pour GIt
 	private Icon icon, ruleIc;
 	private static Integer tailleIle = new Integer(10);
 	private static double tauxRocs;

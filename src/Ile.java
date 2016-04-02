@@ -6,7 +6,7 @@ import java.util.Random;
  */
 public class Ile {
 
-	private Parcelle[][] tableau;
+	protected Parcelle[][] tableau;
 	private static double tauxRoc = 0.1;
 	
 	/**

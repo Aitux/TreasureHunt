@@ -56,7 +56,6 @@ public class Ile {
 	 * Genere la mer, les bateaux des 2 equipes, les rochers et leur pourcentage ainsi que la terre
 	 */
 	public void genererIle(){
-		System.out.println(tauxRoc);
 		int nbRochers = (int) ((this.tableau.length - 2) * (this.tableau[0].length - 2) * tauxRoc);
 		int[][] tabRochers = this.genererRochers(nbRochers);
 		for (int i = 0; i < this.tableau.length; i++) {

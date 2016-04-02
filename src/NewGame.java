@@ -18,7 +18,6 @@ public class NewGame {
 		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png"};
 		Plateau plateau = new Plateau(img,tailleIle+2);
 		Ile ile = new Ile(tailleIle+2);
-		System.out.println(tauxRocs);
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
 		plateau.setJeu(ile.getTableau());
@@ -34,13 +33,12 @@ public class NewGame {
 		case 0:
 				JOptionPane jop = new JOptionPane();
 				String[] taille = {"10 cases", "15 cases", "20 cases","25 cases"};
-				String rang = (String) jop.showInputDialog(null,"Quelle taille voulez vous pour l'île ? :","Option", JOptionPane.QUESTION_MESSAGE, null, taille, taille[2]);
+				String rang = (String) jop.showInputDialog(null,"Quelle taille voulez vous pour l'île ? :","Option", JOptionPane.QUESTION_MESSAGE, null, taille, taille[0]);
 				jop.showMessageDialog(null, "Vous avez demandé une île de "+rang,"Option", JOptionPane.INFORMATION_MESSAGE);
 				tailleIle = Integer.parseInt(rang.substring(0, 2));	
 				String[] tauxRoc = new String[]{"10%", "20%","30%","40%","50%","60%"};
-				rang = (String) jop.showInputDialog(null,"Quel taux de rocher voulez vous pour l'ile ? : ", "Taux Rocher", JOptionPane.QUESTION_MESSAGE, null, tauxRoc, tauxRoc[2]);
+				rang = (String) jop.showInputDialog(null,"Quel taux de rocher voulez vous pour l'ile ? : ", "Taux Rocher", JOptionPane.QUESTION_MESSAGE, null, tauxRoc, tauxRoc[0]);
 				tauxRocs = ((double) (Integer.parseInt(rang.substring(0,2))))/100;
-				System.out.println(tauxRocs);
 				return true;
 				
 		case 1: 

@@ -1,4 +1,3 @@
-	
 
 /**
  * Class qui cree et gere les differents types de parcelles
@@ -10,6 +9,7 @@ public class Parcelle {
 	private int nb;
 	boolean cle;
 	boolean coffre;
+	boolean trésor;
 	
 	
 	/**
@@ -23,30 +23,35 @@ public class Parcelle {
 			this.nb = 1;
 			cle = false;
 			coffre = false;
-			
+			trésor = false;
 		//EAU
 		}else if(element == 2){
 			this.nb = 2;
 			cle = false;
 			coffre = false;
-			
+			trésor = false;
+
 		//NAVIRE EQUIPE 1	
 		}else if(element == 3){
 			this.nb = 3;
 			cle = false;
 			coffre = false;
-			
+			trésor = false;
+
 		//NAVIRE EQUIPE 2	
 		}else if(element == 4){
 			this.nb = 4;
 			cle = false;
 			coffre = false;
-			
+			trésor = false;
+
 		// TERRE
 		}else{
 			this.nb = 5;
 			cle = false;
 			coffre = false;
+			trésor = false;
+
 		}
 	}
 	

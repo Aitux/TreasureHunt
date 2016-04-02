@@ -11,15 +11,15 @@ public class Explorateur extends Personnage {
 					this.clé = true;
 					ile.tableau[x][y].cle = false;
 			}
-				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].coffre == false){
+				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].trésor == false){
 					System.out.println("Il y avait un trésor ici avant mais il a déjà était pris");
 				}
-				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].coffre == true && this.clé == false){
+				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].trésor == true && this.clé == false){
 					System.out.println("Vous remarquer un coffre mais vous n'avez malheureusement pas la clé");
 				}
-				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].coffre == true && this.clé == false){
+				else if(ile.tableau[x][y].coffre && ile.tableau[x][y].trésor == true && this.clé == false){
 					this.trésor = true;
-					ile.tableau[x][y].coffre = false;
+					ile.tableau[x][y].trésor = false;
 				}
 
 		}

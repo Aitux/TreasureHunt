@@ -8,13 +8,13 @@ public class Ile {
 
 	protected Parcelle[][] tableau;
 	private static double tauxRoc = 0.1;
-	
+
 	/**
 	 * Genere les coordonnees des rochers ainsi que leur nombre voulu
 	 * @param nbRochers
 	 * @return int[][]
 	 */
-	int[][] genererRochers(int nbRochers){
+	public int[][] genererRochers(int nbRochers){
 		int[][] tabRochers = new int[nbRochers+2][2];   // nombre de rochers voulus et +2 pour la cle et le coffre
 		Random r = new Random();
 		for (int i = 0; i < nbRochers; i++) {
@@ -34,24 +34,60 @@ public class Ile {
 				}
 			}
 		}
-		
+
+
+
 		// CACHER CLE ET COFFRE SOUS UN ROCHER DE LA MAP
 		int rocherCle, rocherCoffre;
 		rocherCle = r.nextInt(nbRochers);
 		tabRochers[nbRochers][0] = tabRochers[rocherCle][0];
 		tabRochers[nbRochers][1] = tabRochers[rocherCle][1];
-		
+
 		do{
 			rocherCoffre = r.nextInt(nbRochers);
 		}while(rocherCle == rocherCoffre);
-		
+
 		tabRochers[nbRochers+1][0] = tabRochers[rocherCoffre][0];
 		tabRochers[nbRochers+1][1] = tabRochers[rocherCoffre][1];
-		
-		
+
+
 		return tabRochers;
 	}
+	/**
+	 * Verifie que tout les rochers sont accessibles par l'explorateur et qu'il est possible de sortir des bateaux
+	 */
+
+	public void checkIle(){
+		int cpt;
+		for(int i = 0; i < this.tableau.length; i++){
+			cpt = 0;
+			for(int j = 0; j < this.tableau.length; j++){
+				cpt = 0;
+				if(this.tableau[i][j].getNb() == 1){ 
+					for(int k= i-1; k < i+1; k++){
+						for(int l = j-1; l < j+1; l++){
+							if(this.tableau[k][l].getNb() == 1){
+								cpt+=1;
+								if(cpt >= 4 ){
+									this.tableau[k][l].setNb(5);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Verifie qu'il y ait un chemin qui permet aux équipes de se rencontrer #RECURSIVITE :)
+	 */
 	
+	public void RencontrePossible(){
+		
+	}
+	
+
 	/**
 	 * Genere la mer, les bateaux des 2 equipes, les rochers et leur pourcentage ainsi que la terre
 	 */
@@ -72,7 +108,7 @@ public class Ile {
 						if(tab[0] == i && tab[1] == j){
 							estpresent = true;
 							this.tableau[i][j] = new Parcelle(1); //ROCHERS
-							
+
 							if(i == tabRochers[nbRochers][0] && j == tabRochers[nbRochers][1]){
 								this.tableau[i][j].cle = true;
 							}else if(i == tabRochers[nbRochers+1][0] && j == tabRochers[nbRochers+1][1]){
@@ -90,7 +126,7 @@ public class Ile {
 			genererIle();
 		}
 	}
-	
+
 	/**
 	 * Renvoie un tableau d'entier a deux dimensions pour faciliter l'affichage (utilisation de la class plateau)
 	 * @return int[][]
@@ -98,11 +134,12 @@ public class Ile {
 	public int[][] getTableau(){
 		int[][] jeu = new int[this.tableau.length][this.tableau[0].length];
 		for (int i = 0; i < this.tableau.length; i++) {
+			System.out.println();
 			for (int j = 0; j < this.tableau[0].length; j++) {
 				jeu[i][j] = this.tableau[i][j].getNb();
-				
+				System.out.print(jeu[i][j]);
 			}
-			
+
 		}
 		return jeu;
 	}
@@ -115,11 +152,11 @@ public class Ile {
 	public Ile(){
 		this.tableau = new Parcelle[10][10];
 	}
-	
+
 	public Ile(int n){
 		this.tableau = new Parcelle[n][n];
 	}
-	
+
 	public Ile(int n, int m){
 		this.tableau = new Parcelle[n][m];
 	}

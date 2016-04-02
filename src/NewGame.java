@@ -20,6 +20,8 @@ public class NewGame {
 		Ile ile = new Ile(tailleIle+2);
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
+		ile.checkIle();
+//		ile.RencontrePossible();
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 	}

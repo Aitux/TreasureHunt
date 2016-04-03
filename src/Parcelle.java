@@ -7,9 +7,9 @@
 public class Parcelle {
 
 	private int nb;
-	boolean cle;
-	boolean coffre;
-	boolean trésor;
+	private boolean cle;
+	private boolean coffre;
+	private boolean trésor;
 	
 	
 	/**
@@ -21,36 +21,36 @@ public class Parcelle {
 		// ROCHERS
 		if(element == 1){
 			this.nb = 1;
-			cle = false;
-			coffre = false;
-			trésor = false;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 		//EAU
 		}else if(element == 2){
 			this.nb = 2;
-			cle = false;
-			coffre = false;
-			trésor = false;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 
 		//NAVIRE EQUIPE 1	
 		}else if(element == 3){
 			this.nb = 3;
-			cle = false;
-			coffre = false;
-			trésor = false;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 
 		//NAVIRE EQUIPE 2	
 		}else if(element == 4){
 			this.nb = 4;
-			cle = false;
-			coffre = false;
-			trésor = false;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 
 		// TERRE
 		}else{
 			this.nb = 5;
-			cle = false;
-			coffre = false;
-			trésor = false;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 
 		}
 	}
@@ -69,5 +69,46 @@ public class Parcelle {
 	 */
 	public void setNb(int nb){
 		this.nb = nb;
+	}
+
+	/**
+	 * @return the trésor
+	 */
+	public boolean getTrésor() {
+		return trésor;
+	}
+
+	/**
+	 * @param trésor the trésor to set
+	 */
+	public void setTrésor(boolean trésor) {
+		this.trésor = trésor;
+	}
+
+	/**
+	 * @return the coffre
+	 */
+	public boolean getCoffre() {
+		return coffre;
+	}
+
+	/**
+	 * @param coffre the coffre to set
+	 */
+	public void setCoffre(boolean coffre) {
+		this.coffre = coffre;
+	}
+
+	/**
+	 * @return the cle
+	 */
+	public boolean getCle() {
+		return cle;
+	}
+
+	/**
+	 */
+	public void setCle(boolean cle) {
+		this.cle = cle;
 	}
 }

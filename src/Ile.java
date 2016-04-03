@@ -14,7 +14,7 @@ public class Ile {
 	 * @param nbRochers
 	 * @return int[][]
 	 */
-	public int[][] genererRochers(int nbRochers){
+	private int[][] genererRochers(int nbRochers){
 		int[][] tabRochers = new int[nbRochers+2][2];   // nombre de rochers voulus et +2 pour la cle et le coffre
 		Random r = new Random();
 		for (int i = 0; i < nbRochers; i++) {
@@ -81,12 +81,17 @@ public class Ile {
 
 	/**
 	 * Verifie qu'il y ait un chemin qui permet aux équipes de se rencontrer #RECURSIVITE :)
+	 * @param tableauIle
+	 * @return boolean
 	 */
 	
-	public void RencontrePossible(){
-		
-	}
+//	public boolean RencontrePossible(int[][] tableauIle){
+////		if()
+//		return true;
+//	}
 	
+	
+		
 
 	/**
 	 * Genere la mer, les bateaux des 2 equipes, les rochers et leur pourcentage ainsi que la terre
@@ -110,9 +115,9 @@ public class Ile {
 							this.tableau[i][j] = new Parcelle(1); //ROCHERS
 
 							if(i == tabRochers[nbRochers][0] && j == tabRochers[nbRochers][1]){
-								this.tableau[i][j].cle = true;
+								this.tableau[i][j].setCle(true);
 							}else if(i == tabRochers[nbRochers+1][0] && j == tabRochers[nbRochers+1][1]){
-								this.tableau[i][j].coffre = true;
+								this.tableau[i][j].setCoffre(true);
 							}
 						}
 					}
@@ -144,7 +149,7 @@ public class Ile {
 		return jeu;
 	}
 	public void setTauxRoc(double taux){
-		this.tauxRoc = taux;
+		tauxRoc = taux;
 	}
 	/**
 	 * Constructeur de la class Ile

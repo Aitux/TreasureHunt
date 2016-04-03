@@ -2,6 +2,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import tps.Plateau;
+
 public class NewGame {
 	// verification pour GIt
 	private Icon icon, ruleIc;
@@ -21,7 +23,7 @@ public class NewGame {
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
 		ile.checkIle();
-//		ile.RencontrePossible();
+//		ile.RencontrePossible(ile.getTableau());
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 	}

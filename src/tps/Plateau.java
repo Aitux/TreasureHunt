@@ -112,7 +112,8 @@ public class Plateau {
 		resizeFromGraphic() ;
 
 		// Affichage effectif 
-		window.pack();
+		window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
+	//	window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		// Ajout des listeners.

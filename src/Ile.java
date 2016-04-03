@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 /**
  * Class qui genere l'ile
@@ -8,6 +9,7 @@ public class Ile {
 
 	protected Parcelle[][] tableau;
 	private static double tauxRoc = 0.1;
+	private static ArrayList<Personnage> champ = new ArrayList<>();
 
 	/**
 	 * Genere les coordonnees des rochers ainsi que leur nombre voulu
@@ -78,20 +80,79 @@ public class Ile {
 			}
 		}
 	}
+	public void initChamp(){
+		champ.add(new Explorateur(1, this));
+		champ.add(new Explorateur(2, this));
+		champ.add(new Voleur(1, this));
+		champ.add(new Voleur(2, this));
+	}
+
+	public void placement(){
+		boolean placé;
+		for(int i = 0; i<this.tableau.length; i++){
+			placé = false;
+
+			for(int j = 0; j<this.tableau.length; j++){
+				placé = false;
+				if(this.tableau[i][j].getNb() == 3){
+					for(int k = i-1; k<i+1;k++){
+						for(int p = j-1; p<j+1; p++){
+							if(this.tableau[k][p].getNb() == 5 && !placé){placé = true; this.tableau[k][p].setNb(6);}
+						}
+					}
+				}
+				if(this.tableau[i][j].getNb() == 4){
+					for(int k = i-1; k<i+1;k++){
+						for(int p = j-1; p<j+1; p++){
+							if(this.tableau[k][p].getNb() == 5 && !placé){placé = true; this.tableau[k][p].setNb(7);}
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	public void deplacerChamp(int x, int y, int x1, int y1){
+		int tmp;
+		System.out.println(this.tableau[y][x].getNb()+"---"+this.tableau[y1][x1].getNb());
+		if(this.tableau[y][x].getNb() == 6 || this.tableau[y][x].getNb() == 7){
+			if(this.tableau[y1][x1].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				tmp = this.tableau[y1][x1].getNb();
+				this.tableau[y1][x1].setNb(this.tableau[y][x].getNb());
+				this.tableau[y][x].setNb(tmp);
+//				System.out.println("Taunty");
+
+			}
+		}
+//		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 7  && (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)){
+//			CheckCaillasse(x1,y1,1);
+//		}
+//		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 6  && (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)){
+//			CheckCaillasse(x1,y1,2);
+//		}
+
+	}
+
+	private void CheckCaillasse(int x1, int y1, int equipe){
+		if(champ.get(0).equipe == equipe){
+			Explorateur e1 = (Explorateur) champ.get(0);
+			e1.SouleverRocher(y1, x1);
+		}
+	}
 
 	/**
 	 * Verifie qu'il y ait un chemin qui permet aux équipes de se rencontrer #RECURSIVITE :)
 	 * @param tableauIle
 	 * @return boolean
 	 */
-	
-//	public boolean RencontrePossible(int[][] tableauIle){
-////		if()
-//		return true;
-//	}
-	
-	
-		
+
+	//	public boolean RencontrePossible(int[][] tableauIle){
+	////		if()
+	//		return true;
+	//	}
+
+
+
 
 	/**
 	 * Genere la mer, les bateaux des 2 equipes, les rochers et leur pourcentage ainsi que la terre
@@ -139,10 +200,8 @@ public class Ile {
 	public int[][] getTableau(){
 		int[][] jeu = new int[this.tableau.length][this.tableau[0].length];
 		for (int i = 0; i < this.tableau.length; i++) {
-			System.out.println();
 			for (int j = 0; j < this.tableau[0].length; j++) {
 				jeu[i][j] = this.tableau[i][j].getNb();
-				System.out.print(jeu[i][j]);
 			}
 
 		}

@@ -12,7 +12,7 @@ public abstract class Personnage {
 	protected int PosY;
 	protected boolean clé;
 	protected boolean trésor;
-
+	
 	public Personnage (int equipe, Ile ile){
 		this.equipe = equipe;
 		if(equipe == 1){

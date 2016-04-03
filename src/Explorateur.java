@@ -1,6 +1,5 @@
 public class Explorateur extends Personnage {
 	
-		
 	
 	public Explorateur(int equipe, Ile ile) {
 		super(equipe, ile);

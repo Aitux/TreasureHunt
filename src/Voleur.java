@@ -1,6 +1,5 @@
 
 public class Voleur extends Personnage {
-
 	Voleur(int equipe, Ile ile) {
 		super(equipe, ile);
 	}

@@ -29,42 +29,19 @@ public class NewGame {
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
 		ile.checkIle();
+		ile.addPlateau(plateau);
 		//		ile.RencontrePossible(ile.getTableau());
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 		ile.initChamp();
-//		ile.winCondition();
+		//		ile.winCondition();
 		while(true){
 			plateau.setJeu(ile.getTableau());
-			deplacer(plateau, ile);
+			ile.selectCase(plateau);
 		}
 	}
 
-	private int[] getPerso(Plateau s){
-		int[] coo = new int[2];
-		s.println("Séléctionnez une case");
-		InputEvent event = s.waitEvent();
-		coo[0]= s.getX((MouseEvent)	event);
-		coo[1]= s.getY((MouseEvent) event);
-		return coo;
-	}
-	
 
-	
-	private int[] getFinal(Plateau s){
-		int[] coo = new int[2];
-		s.println("Faites une action");
-		InputEvent event = s.waitEvent();
-		coo[0]= s.getX((MouseEvent)	event);
-		coo[1]= s.getY((MouseEvent) event);
-		return coo;
-	}
-
-	public void deplacer(Plateau s, Ile ile){
-		int[] A = getPerso(s);
-		int[] B = getFinal(s);
-		System.out.println(A[0]+" "+A[1]+" "+B[0]+" "+B[1]);
-	}
 
 
 	/**
@@ -74,7 +51,7 @@ public class NewGame {
 
 	@SuppressWarnings("static-access")
 	private boolean Menu(){
-		String[] test = {"Nouvelle Partie", "Rêgles du jeu", "Quitter"};
+		String[] test = {"Nouvelle Partie", "Rêgles du jeu","SandBox", "Quitter"};
 		icon = new ImageIcon("images/steve.png");
 		int choice1 = JOptionPane.showOptionDialog(null, "Que souhaitez vous faire ?", "TreasureHunt 2016",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE, icon, test, test[0]);
 		switch(choice1){
@@ -82,7 +59,7 @@ public class NewGame {
 			JOptionPane jop = new JOptionPane();
 			String[] taille = {"10 cases", "15 cases", "20 cases"};
 			String rang = (String) jop.showInputDialog(null,"Quelle taille voulez vous pour l'île ? :","Option", JOptionPane.QUESTION_MESSAGE, null, taille, taille[0]);
-		//	jop.showMessageDialog(null, "Vous avez demandé une île de "+rang,"Option", JOptionPane.INFORMATION_MESSAGE);
+			//	jop.showMessageDialog(null, "Vous avez demandé une île de "+rang,"Option", JOptionPane.INFORMATION_MESSAGE);
 			tailleIle = Integer.parseInt(rang.substring(0, 2));	
 			String[] tauxRoc = new String[]{"10%", "20%","30%","40%"};
 			rang = (String) jop.showInputDialog(null,"Quel taux de rocher voulez vous pour l'ile ? : ", "Taux Rocher", JOptionPane.QUESTION_MESSAGE, null, tauxRoc, tauxRoc[0]);
@@ -90,11 +67,12 @@ public class NewGame {
 			return true;
 
 		case 1: 
-			//			JOptionPane.showMessageDialog(null, "WIP");
+			//	JOptionPane.showMessageDialog(null, "WIP");
 			ruleIc = new ImageIcon("images/rule.png");
 			JOptionPane.showMessageDialog(null, null, "Rules Treasure Hunt", JOptionPane.INFORMATION_MESSAGE, ruleIc);
 			return false;
-		case 2: System.exit(0);
+		case 3: System.exit(0);
+		case 2: break;
 		}
 		return false;
 	}

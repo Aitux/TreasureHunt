@@ -36,7 +36,7 @@ public abstract class Personnage {
 		}
 		this.ile = ile;
 	}
-
+	public abstract String is();
 
 	public void obtiensTrésor(){
 		trésor = true;

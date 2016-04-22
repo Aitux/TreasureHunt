@@ -27,4 +27,9 @@ public class Explorateur extends Personnage {
 
 		}
 	}
+	@Override
+	public String is() {
+		// TODO Auto-generated method stub
+		return "Explorateur";
+	}
 }

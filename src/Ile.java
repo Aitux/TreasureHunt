@@ -1,5 +1,11 @@
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JOptionPane;
+
+import tps.Plateau;
 /**
  * Class qui genere l'ile
  * @author Simon, Valentin et Emeline
@@ -9,7 +15,9 @@ public class Ile {
 
 	protected Parcelle[][] tableau;
 	private static double tauxRoc = 0.1;
-	private static ArrayList<Personnage> champ = new ArrayList<>();
+	private static ArrayList<Personnage> Team1 = new ArrayList<>();
+	private static ArrayList<Personnage> Team2 = new ArrayList<>();
+	private Plateau p;
 
 	/**
 	 * Genere les coordonnees des rochers ainsi que leur nombre voulu
@@ -55,11 +63,7 @@ public class Ile {
 
 		return tabRochers;
 	}
-	
-	public void fillBoat(){
-		int x , y;
-		
-	}
+
 	/**
 	 * Verifie que tout les rochers sont accessibles par l'explorateur et qu'il est possible de sortir des bateaux
 	 */
@@ -86,15 +90,15 @@ public class Ile {
 		}
 	}
 	public void initChamp(){
-		champ.add(new Explorateur(1, this));
-		champ.add(new Explorateur(2, this));
-		champ.add(new Voleur(1, this));
-		champ.add(new Voleur(2, this));
+		Team1.add(new Explorateur(1,this));
+		Team2.add(new Explorateur(2, this));
+		Team1.add(new Explorateur(2,this));
+		Team2.add(new Voleur(2, this));
 	}
 
 	public void deplacerChamp(int x, int y, int x1, int y1){
 		int tmp;
-		
+
 		//	System.out.println(this.tableau[y][x].getNb()+"---"+this.tableau[y1][x1].getNb());
 		if(this.tableau[y][x].getNb() == 6 || this.tableau[y][x].getNb() == 7){
 			if(this.tableau[y1][x1].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
@@ -115,36 +119,15 @@ public class Ile {
 
 	}
 
-	//	public boolean test(){
-	//		boolean key = false, chest = false;
-	//		int cptK = 0, cptC = 0;
-	//		for(int i = 0; i<this.tableau.length; i++){
-	//			for(int j = 0; j<this.tableau[0].length; j++){
-	//				if(tableau[j][i].getNb() == 1){
-	//					if(tableau[j][i].getCle()){
-	//						key = true;
-	//						cptK +=1;
-	//					}
-	//					if(tableau[j][i].getCoffre()){
-	//						chest = true;
-	//						cptC +=1;
-	//					}
-	//				}
-	//			}
-	//		}
-	//		if(key && chest){System.out.println("Ok j'ai abusé "+cptK+" "+cptC); return true;}
-	//		else{System.out.println("J'avais raison "+cptK+" "+cptC); return false;}
-	//	}
-
 	private void CheckCaillasse(int x1, int y1, int equipe){
-		if(champ.get(0).equipe == equipe){
+		if(Team1.get(0).equipe == equipe){
 			System.out.println("Taunty e1");
-			Explorateur e1 = (Explorateur) champ.get(0);
+			Explorateur e1 = (Explorateur) Team1.get(0);
 			e1.SouleverRocher(y1, x1);
 		}
-		if(champ.get(1).equipe == equipe){
+		if(Team2.get(0).equipe == equipe){
 			System.out.println("Taunty e2");
-			Explorateur e2 = (Explorateur) champ.get(1);
+			Explorateur e2 = (Explorateur) Team2.get(0);
 			e2.SouleverRocher(y1, x1);
 		}
 	}
@@ -155,10 +138,10 @@ public class Ile {
 	 * @return boolean
 	 */
 
-	public boolean RencontrePossible(int[][] tableauIle){
-//		if()
-			return true;
-	}
+	//	public boolean RencontrePossible(int[][] tableauIle){
+	//		if()
+	//			return true;
+	//	}
 
 
 
@@ -185,10 +168,10 @@ public class Ile {
 							this.tableau[i][j] = new Parcelle(1); //ROCHERS
 
 							if(i == tabRochers[nbRochers][0] && j == tabRochers[nbRochers][1]){
-//								System.out.println("Wallah");
+								//								System.out.println("Wallah");
 								this.tableau[i][j].setCle(true);
 							}else if(i == tabRochers[nbRochers+1][0] && j == tabRochers[nbRochers+1][1]){
-//								System.out.println("Cpasmwa");
+								//								System.out.println("Cpasmwa");
 								this.tableau[i][j].setCoffre(true);
 								this.tableau[i][j].setTrésor(true);
 							}
@@ -232,6 +215,81 @@ public class Ile {
 	public Ile(int n){
 		this.tableau = new Parcelle[n][n];
 	}
+	private int[] getCase(Plateau s){
+		int[] coo = new int[2];
+		s.println("Séléctionnez une case");
+		InputEvent event = s.waitEvent();
+		coo[0]= s.getX((MouseEvent)	event);
+		coo[1]= s.getY((MouseEvent) event);
+		return coo;
+	}
 
+
+	/**
+	 * permet de récupérer les coordonnées du deuxième clique du joueur
+	 * @param s
+	 * @return coo 
+	 */
+	private int[] getFinal(Plateau s){
+		int[] coo = new int[2];
+		s.println("Faites une action");
+		InputEvent event = s.waitEvent();
+		coo[0]= s.getX((MouseEvent)	event);
+		coo[1]= s.getY((MouseEvent) event);
+		return coo;
+	}
+	/**
+	 * Lance une action différente en fonction de l'endroit ou à cliqué le joueur
+	 * @param s
+	 */
+	public void selectCase(Plateau s){
+		int[] select = getCase(s);
+		switch(isSelected(select)){
+		case 0: break; // Rien
+		case 1: break; // Rocher
+		case 2: break; // Eau
+		case 3: navire(1); break; // Navire Equipe 1
+		case 4: navire(2); break; // Navire Equipe 2
+		case 5: break; // Terre
+		case 6: explo(1); break; // Explorateur Equipe 1
+		case 7: explo(2); break; // Explorateur Equipe 1
+		case 8: break; // Futur Voleur Equipe 1
+		case 9: break; // Futur Voleur Equipe 2
+		case 10: break; // Futur Guerrier Equipe 1
+		case 11: break; // Futur Guerrier Equipe 2
+		case 12: break; // Futur Piegeur Equipe 1
+		case 13: break; // Futur Piegeur Equipe 2
+		}
+	}
+
+	private int isSelected(int[] s){
+		return tableau[s[0]][s[1]].getNb();
+	}
+
+	public void addPlateau(Plateau plateau){
+		this.p = plateau;
+	}
+	private void navire(int equipe){
+
+		if(equipe == 1){
+			String[] t1 = new String[Team1.size()];
+			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t1, t1[0]);
+			switch(rang){
+			case "Explorateur" : Team1.remove("Explorateur"); break;
+			}
+		}else{
+			int i = 0;
+			String[] t2 = new String[Team2.size()];
+			for(Personnage p : Team2){
+				t2[i] = p.is();
+				i++;
+			}
+			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t2, t2[0]);
+		}
+	}
+
+	public void explo(int equipe){
+
+	}
 
 }

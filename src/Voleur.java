@@ -13,5 +13,10 @@ public class Voleur extends Personnage {
 			P.trésor = false;
 		}
 	}
+	@Override
+	public String is() {
+		// TODO Auto-generated method stub
+		return "Voleur";
+	}
 
 }

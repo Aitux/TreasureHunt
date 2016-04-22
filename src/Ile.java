@@ -55,6 +55,11 @@ public class Ile {
 
 		return tabRochers;
 	}
+	
+	public void fillBoat(){
+		int x , y;
+		
+	}
 	/**
 	 * Verifie que tout les rochers sont accessibles par l'explorateur et qu'il est possible de sortir des bateaux
 	 */
@@ -87,56 +92,60 @@ public class Ile {
 		champ.add(new Voleur(2, this));
 	}
 
-	public void placement(){
-		boolean placé;
-		for(int i = 0; i<this.tableau.length; i++){
-			placé = false;
-
-			for(int j = 0; j<this.tableau.length; j++){
-				placé = false;
-				if(this.tableau[i][j].getNb() == 3){
-					for(int k = i-1; k<i+1;k++){
-						for(int p = j-1; p<j+1; p++){
-							if(this.tableau[k][p].getNb() == 5 && !placé){placé = true; this.tableau[k][p].setNb(6);}
-						}
-					}
-				}
-				if(this.tableau[i][j].getNb() == 4){
-					for(int k = i-1; k<i+1;k++){
-						for(int p = j-1; p<j+1; p++){
-							if(this.tableau[k][p].getNb() == 5 && !placé){placé = true; this.tableau[k][p].setNb(7);}
-						}
-					}
-				}
-			}
-		}	
-	}
-
 	public void deplacerChamp(int x, int y, int x1, int y1){
 		int tmp;
-		System.out.println(this.tableau[y][x].getNb()+"---"+this.tableau[y1][x1].getNb());
+		
+		//	System.out.println(this.tableau[y][x].getNb()+"---"+this.tableau[y1][x1].getNb());
 		if(this.tableau[y][x].getNb() == 6 || this.tableau[y][x].getNb() == 7){
 			if(this.tableau[y1][x1].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
 				tmp = this.tableau[y1][x1].getNb();
 				this.tableau[y1][x1].setNb(this.tableau[y][x].getNb());
 				this.tableau[y][x].setNb(tmp);
-//				System.out.println("Taunty");
+				//				System.out.println("Taunty");
 
 			}
 		}
-//		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 7  && (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)){
-//			CheckCaillasse(x1,y1,1);
-//		}
-//		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 6  && (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)){
-//			CheckCaillasse(x1,y1,2);
-//		}
+
+		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 7  &&( (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+			CheckCaillasse(x1,y1,1);
+		}
+		if(this.tableau[y1][x1].getNb() == 1 && this.tableau[y][x].getNb() == 6  &&( (x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+			CheckCaillasse(x1,y1,2);
+		}
 
 	}
 
+	//	public boolean test(){
+	//		boolean key = false, chest = false;
+	//		int cptK = 0, cptC = 0;
+	//		for(int i = 0; i<this.tableau.length; i++){
+	//			for(int j = 0; j<this.tableau[0].length; j++){
+	//				if(tableau[j][i].getNb() == 1){
+	//					if(tableau[j][i].getCle()){
+	//						key = true;
+	//						cptK +=1;
+	//					}
+	//					if(tableau[j][i].getCoffre()){
+	//						chest = true;
+	//						cptC +=1;
+	//					}
+	//				}
+	//			}
+	//		}
+	//		if(key && chest){System.out.println("Ok j'ai abusé "+cptK+" "+cptC); return true;}
+	//		else{System.out.println("J'avais raison "+cptK+" "+cptC); return false;}
+	//	}
+
 	private void CheckCaillasse(int x1, int y1, int equipe){
 		if(champ.get(0).equipe == equipe){
+			System.out.println("Taunty e1");
 			Explorateur e1 = (Explorateur) champ.get(0);
 			e1.SouleverRocher(y1, x1);
+		}
+		if(champ.get(1).equipe == equipe){
+			System.out.println("Taunty e2");
+			Explorateur e2 = (Explorateur) champ.get(1);
+			e2.SouleverRocher(y1, x1);
 		}
 	}
 
@@ -146,10 +155,10 @@ public class Ile {
 	 * @return boolean
 	 */
 
-	//	public boolean RencontrePossible(int[][] tableauIle){
-	////		if()
-	//		return true;
-	//	}
+	public boolean RencontrePossible(int[][] tableauIle){
+//		if()
+			return true;
+	}
 
 
 
@@ -176,9 +185,12 @@ public class Ile {
 							this.tableau[i][j] = new Parcelle(1); //ROCHERS
 
 							if(i == tabRochers[nbRochers][0] && j == tabRochers[nbRochers][1]){
+//								System.out.println("Wallah");
 								this.tableau[i][j].setCle(true);
 							}else if(i == tabRochers[nbRochers+1][0] && j == tabRochers[nbRochers+1][1]){
+//								System.out.println("Cpasmwa");
 								this.tableau[i][j].setCoffre(true);
+								this.tableau[i][j].setTrésor(true);
 							}
 						}
 					}
@@ -221,7 +233,5 @@ public class Ile {
 		this.tableau = new Parcelle[n][n];
 	}
 
-	public Ile(int n, int m){
-		this.tableau = new Parcelle[n][m];
-	}
+
 }

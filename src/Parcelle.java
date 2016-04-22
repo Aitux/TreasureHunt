@@ -10,8 +10,7 @@ public class Parcelle {
 	private boolean cle;
 	private boolean coffre;
 	private boolean trésor;
-	private Personnage into;
-
+	
 	/**
 	 * Affecte un type a une parcelle
 	 * @param element

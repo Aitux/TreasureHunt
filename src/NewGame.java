@@ -9,7 +9,6 @@ import tps.MyMouseEvent;
 import tps.Plateau;
 
 public class NewGame {
-	// verification pour Git
 	private Icon icon, ruleIc;
 	private static Integer tailleIle = new Integer(10);
 	private static double tauxRocs;
@@ -30,11 +29,11 @@ public class NewGame {
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
 		ile.checkIle();
-		ile.placement();
 		//		ile.RencontrePossible(ile.getTableau());
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 		ile.initChamp();
+//		ile.winCondition();
 		while(true){
 			plateau.setJeu(ile.getTableau());
 			deplacer(plateau, ile);
@@ -43,13 +42,15 @@ public class NewGame {
 
 	private int[] getPerso(Plateau s){
 		int[] coo = new int[2];
-		s.println("Choisissez un personnage");
+		s.println("Séléctionnez une case");
 		InputEvent event = s.waitEvent();
 		coo[0]= s.getX((MouseEvent)	event);
 		coo[1]= s.getY((MouseEvent) event);
 		return coo;
 	}
+	
 
+	
 	private int[] getFinal(Plateau s){
 		int[] coo = new int[2];
 		s.println("Faites une action");
@@ -59,10 +60,9 @@ public class NewGame {
 		return coo;
 	}
 
-	private void deplacer(Plateau s, Ile ile){
+	public void deplacer(Plateau s, Ile ile){
 		int[] A = getPerso(s);
 		int[] B = getFinal(s);
-		ile.deplacerChamp(A[0],A[1], B[0],B[1]);
 		System.out.println(A[0]+" "+A[1]+" "+B[0]+" "+B[1]);
 	}
 

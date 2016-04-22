@@ -92,7 +92,7 @@ public class Ile {
 	public void initChamp(){
 		Team1.add(new Explorateur(1,this));
 		Team2.add(new Explorateur(2, this));
-		Team1.add(new Explorateur(2,this));
+		Team1.add(new Voleur(1,this));
 		Team2.add(new Voleur(2, this));
 	}
 
@@ -270,12 +270,29 @@ public class Ile {
 		this.p = plateau;
 	}
 	private void navire(int equipe){
-
+		JOptionPane jop = new JOptionPane();
 		if(equipe == 1){
+			int i = 0;
+			int j = 0;
 			String[] t1 = new String[Team1.size()];
+			for(Personnage p : Team1){
+				t1[i] = p.is();
+				i++;
+			}
 			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t1, t1[0]);
-			switch(rang){
-			case "Explorateur" : Team1.remove("Explorateur"); break;
+			if(rang != null){
+				switch(rang){
+				//		case JOptionPane.CANCEL_OPTION : break;
+				case "Explorateur" : while(!t1[j].equals("Explorateur")) {
+					j++;
+				}
+				Team1.remove(j); break;
+				case "Voleur": while(!t1[j].equals("Voleur")){
+					j++;
+				}
+				Team1.remove(j); break;
+				default: break; 
+				}
 			}
 		}else{
 			int i = 0;
@@ -285,6 +302,9 @@ public class Ile {
 				i++;
 			}
 			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t2, t2[0]);
+			if(rang != null){
+				
+			}
 		}
 	}
 

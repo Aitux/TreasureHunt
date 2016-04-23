@@ -24,7 +24,7 @@ public class NewGame {
 		 */
 
 		while(!Menu()){}
-		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png","images/2.explorateur.png"};
+		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png","images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png"};
 		Plateau plateau = new Plateau(img,tailleIle+2, true);
 		Ile ile = new Ile(tailleIle+2);
 		ile.setTauxRoc(tauxRocs);
@@ -37,7 +37,6 @@ public class NewGame {
 		ile.initChamp();
 		//		ile.winCondition();
 		while(true){
-			plateau.setHighlight(5, 5, Color.BLUE);
 			plateau.setJeu(ile.getTableau());
 			ile.selectCase(plateau);
 		}

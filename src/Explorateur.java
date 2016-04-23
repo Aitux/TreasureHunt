@@ -32,4 +32,9 @@ public class Explorateur extends Personnage {
 		// TODO Auto-generated method stub
 		return "Explorateur";
 	}
+	@Override
+	public int isTeam() {
+		// TODO Auto-generated method stub
+		return equipe;
+	}
 }

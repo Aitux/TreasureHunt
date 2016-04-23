@@ -18,5 +18,10 @@ public class Voleur extends Personnage {
 		// TODO Auto-generated method stub
 		return "Voleur";
 	}
+	@Override
+	public int isTeam() {
+		// TODO Auto-generated method stub
+		return equipe;
+	}
 
 }

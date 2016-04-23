@@ -16,6 +16,7 @@ public class Ile {
 
 	protected Parcelle[][] tableau;
 	private static double tauxRoc = 0.1;
+	private static ArrayList<Personnage> onField = new ArrayList<>();
 	private static ArrayList<Personnage> Team1 = new ArrayList<>();
 	private static ArrayList<Personnage> Team2 = new ArrayList<>();
 	private Plateau p;
@@ -121,17 +122,22 @@ public class Ile {
 	}
 
 	private void CheckCaillasse(int x1, int y1, int equipe){
-		if(Team1.get(0).equipe == equipe){
-			System.out.println("Taunty e1");
-			Explorateur e1 = (Explorateur) Team1.get(0);
-			e1.SouleverRocher(y1, x1);
+		int w = 0;
+		int i =0 ;
+		boolean test = false;
+		String[] Field = new String[onField.size()];
+		for(Personnage p : onField){
+			Field[w] = p.is();
+			w++;
 		}
-		if(Team2.get(0).equipe == equipe){
-			System.out.println("Taunty e2");
-			Explorateur e2 = (Explorateur) Team2.get(0);
-			e2.SouleverRocher(y1, x1);
+		
+		while(!test){
+			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
+			else i++;
+		}	System.out.println("Taunty");			
+			((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
 		}
-	}
+	
 
 	/**
 	 * Verifie qu'il y ait un chemin qui permet aux équipes de se rencontrer #RECURSIVITE :)
@@ -212,7 +218,6 @@ public class Ile {
 	public Ile(){
 		this.tableau = new Parcelle[10][10];
 	}
-
 	public Ile(int n){
 		this.tableau = new Parcelle[n][n];
 	}
@@ -224,8 +229,6 @@ public class Ile {
 		coo[1]= s.getY((MouseEvent) event);
 		return coo;
 	}
-
-
 	/**
 	 * permet de récupérer les coordonnées du deuxième clique du joueur
 	 * @param s
@@ -253,8 +256,8 @@ public class Ile {
 		case 3: int ch = navireDeb(1);spawn(ch, 1, select); break; // Navire Equipe 1
 		case 4: int ch1 = navireDeb(2);spawn(ch1,2, select); break; // Navire Equipe 2
 		case 5: break; // Terre
-		case 6: explo(1); break; // Explorateur Equipe 1
-		case 7: explo(2); break; // Explorateur Equipe 1
+		case 6: explo(1, select); break; // Explorateur Equipe 1
+		case 7: explo(2, select); break; // Explorateur Equipe 1
 		case 8: break; // Futur Voleur Equipe 1
 		case 9: break; // Futur Voleur Equipe 2
 		case 10: break; // Futur Guerrier Equipe 1
@@ -265,7 +268,7 @@ public class Ile {
 	}
 
 	private int isSelected(int[] s){
-		return tableau[s[0]][s[1]].getNb();
+		return tableau[s[1]][s[0]].getNb();
 	}
 
 	public void addPlateau(Plateau plateau){
@@ -293,10 +296,12 @@ public class Ile {
 				case "Explorateur" : while(!t1[j].equals("Explorateur")) {
 					j++;
 				}
+				onField.add(Team1.get(j));
 				Team1.remove(j); return 6 ;
 				case "Voleur": while(!t1[j].equals("Voleur")){
 					j++;
 				}
+				onField.add(Team1.get(j));
 				Team1.remove(j); return 8; 
 				default: break; 
 				}
@@ -318,11 +323,13 @@ public class Ile {
 				case "Explorateur" : while(!t2[j].equals("Explorateur")) {
 					j++;
 				}
-				Team2.remove(j); return 6 ;
+				onField.add(Team2.get(j));
+				Team2.remove(j); return 7 ;
 				case "Voleur": while(!t2[j].equals("Voleur")){
 					j++;
 				}
-				Team2.remove(j); return 8; 
+				onField.add(Team2.get(j));
+				Team2.remove(j); return 9; 
 				default: break; 
 				}
 			}
@@ -335,15 +342,27 @@ public class Ile {
 		if(j == 8 || j == 9 || j == 3 || j == 4){		
 			for(int l = i[0]-1; l<=i[0]+1;l++){
 				for(int k = i[1]-1;k<=i[1]+1;k++){
-					if(tableau[l][k].isAccessible(tableau[k][l].getNb())){
+					if(tableau[k][l].isAccessible(tableau[k][l].getNb())){
 						p.setHighlight(l,k,Color.GREEN);
 					}
 				}
 			}
+
+		}else if(j == 6 || j == 7){
+			for(int l = i[0]-1; l<=i[0]+1;l++){
+				for(int k = i[1]-1;k<=i[1]+1;k++){
+					if(tableau[k][l].isAccessible(tableau[k][l].getNb()) && ((l == i[0] && k == i[1]+1) || (l == i[0] && k == i[1]-1) || (l == i[0]-1 && k == i[1]) || (l == i[0]+1 && k == i[1]))){
+						p.setHighlight(l,k,Color.GREEN);
+					} else if(tableau[k][l].getNb() == 1 &&((l == i[0] && k == i[1]+1) || (l == i[0] && k == i[1]-1) || (l == i[0]-1 && k == i[1]) || (l == i[0]+1 && k == i[1])) ){
+						p.setHighlight(l, k, Color.BLUE);
+					}
+				}
+			}
+
 		}else{
 			for(int l = i[0]-1; l<=i[0]+1;l++){
 				for(int k = i[1]-1;k<=i[1]+1;k++){
-					if(tableau[l][k].isAccessible(tableau[k][l].getNb()) && ((l == i[0] && k == i[1]+1) || (l == i[0] && k == i[1]-1) || (l == i[0]-1 && k == i[1]) || (l == i[0]+1 && k == i[1]))){
+					if(tableau[k][l].isAccessible(tableau[k][l].getNb()) && ((l == i[0] && k == i[1]+1) || (l == i[0] && k == i[1]-1) || (l == i[0]-1 && k == i[1]) || (l == i[0]+1 && k == i[1]))){
 						p.setHighlight(l,k,Color.GREEN);
 					}
 				}
@@ -358,16 +377,52 @@ public class Ile {
 		}else{
 			if(i == 1){
 				int[] coo =	getFinal(p, select);
+				if( tableau[coo[1]][coo[0]].isAccessible(tableau[coo[1]][coo[0]].getNb()) && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)){
+					tableau[coo[1]][coo[0]].setNb(ch);
+				}
 
 			}else{
 				int[] coo =	getFinal(p, select);
+				if( tableau[coo[1]][coo[0]].isAccessible(tableau[coo[1]][coo[0]].getNb()) && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)){
+					tableau[coo[1]][coo[0]].setNb(ch);
+				}
 			}
 		}
 
 	}
 
-	public void explo(int equipe){
 
+	public void explo(int equipe, int[] select){
+		int tmp;
+		if(equipe == 1){
+			int[] coo = getFinal(p, select);
+			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
+			//	System.out.println(select[0]+" "+select[1]+" -->"+coo[0]+" "+coo[1]+" go to"+this.tableau[coo[1]][coo[0]].getNb()+" from "+tableau[select[1]][select[0]].getNb());
+			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
+				//	System.out.println(tmp);
+				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
+				this.tableau[select[1]][select[0]].setNb(tmp);
+				//System.out.println("Taunty");
+
+			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				CheckCaillasse(x1, y1,1);
+			}
+		}else {
+			int[] coo = getFinal(p, select);
+			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
+			//	System.out.println(select[0]+" "+select[1]+" -->"+coo[0]+" "+coo[1]+" go to"+this.tableau[coo[1]][coo[0]].getNb()+" from "+tableau[select[1]][select[0]].getNb());
+			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
+				//	System.out.println(tmp);
+				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
+				this.tableau[select[1]][select[0]].setNb(tmp);
+				//System.out.println("Taunty");
+			}
+			else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				CheckCaillasse(x1,y1,2);
+			}
+		}
 	}
 
 }

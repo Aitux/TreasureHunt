@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
@@ -36,6 +37,7 @@ public class NewGame {
 		ile.initChamp();
 		//		ile.winCondition();
 		while(true){
+			plateau.setHighlight(5, 5, Color.BLUE);
 			plateau.setJeu(ile.getTableau());
 			ile.selectCase(plateau);
 		}

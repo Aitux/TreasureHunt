@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -230,8 +231,9 @@ public class Ile {
 	 * @param s
 	 * @return coo 
 	 */
-	private int[] getFinal(Plateau s){
+	private int[] getFinal(Plateau s, int[] select){
 		int[] coo = new int[2];
+		putHighLight(select, isSelected(select));
 		s.println("Faites une action");
 		InputEvent event = s.waitEvent();
 		coo[0]= s.getX((MouseEvent)	event);
@@ -248,8 +250,8 @@ public class Ile {
 		case 0: break; // Rien
 		case 1: break; // Rocher
 		case 2: break; // Eau
-		case 3: navire(1); break; // Navire Equipe 1
-		case 4: navire(2); break; // Navire Equipe 2
+		case 3: int ch = navireDeb(1);spawn(ch, 1, select); break; // Navire Equipe 1
+		case 4: int ch1 = navireDeb(2);spawn(ch1,2, select); break; // Navire Equipe 2
 		case 5: break; // Terre
 		case 6: explo(1); break; // Explorateur Equipe 1
 		case 7: explo(2); break; // Explorateur Equipe 1
@@ -269,7 +271,8 @@ public class Ile {
 	public void addPlateau(Plateau plateau){
 		this.p = plateau;
 	}
-	private void navire(int equipe){
+	private int navireDeb(int equipe){
+		String rang;
 		JOptionPane jop = new JOptionPane();
 		if(equipe == 1){
 			int i = 0;
@@ -279,33 +282,88 @@ public class Ile {
 				t1[i] = p.is();
 				i++;
 			}
-			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t1, t1[0]);
+			if(t1.length!=0){
+				rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t1, t1[0]);
+			}else {
+				rang = null;
+			}
 			if(rang != null){
 				switch(rang){
 				//		case JOptionPane.CANCEL_OPTION : break;
 				case "Explorateur" : while(!t1[j].equals("Explorateur")) {
 					j++;
 				}
-				Team1.remove(j); break;
+				Team1.remove(j); return 6 ;
 				case "Voleur": while(!t1[j].equals("Voleur")){
 					j++;
 				}
-				Team1.remove(j); break;
+				Team1.remove(j); return 8; 
 				default: break; 
 				}
 			}
 		}else{
 			int i = 0;
+			int j = 0;
 			String[] t2 = new String[Team2.size()];
 			for(Personnage p : Team2){
 				t2[i] = p.is();
 				i++;
 			}
-			String rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t2, t2[0]);
+			if(t2.length!=0){
+				rang =  (String) JOptionPane.showInputDialog(null,"Quelle unité voulez-vous faire sortir ? :","Sortie du Navire", JOptionPane.QUESTION_MESSAGE, null, t2, t2[0]);
+			}else rang  = null;
 			if(rang != null){
-				
+				switch(rang){
+				//		case JOptionPane.CANCEL_OPTION : break;
+				case "Explorateur" : while(!t2[j].equals("Explorateur")) {
+					j++;
+				}
+				Team2.remove(j); return 6 ;
+				case "Voleur": while(!t2[j].equals("Voleur")){
+					j++;
+				}
+				Team2.remove(j); return 8; 
+				default: break; 
+				}
 			}
 		}
+		return -1;
+	}
+
+	private void putHighLight(int[] i, int j) {
+		// TODO Auto-generated method stub
+		if(j == 8 || j == 9 || j == 3 || j == 4){		
+			for(int l = i[0]-1; l<=i[0]+1;l++){
+				for(int k = i[1]-1;k<=i[1]+1;k++){
+					if(tableau[l][k].isAccessible(tableau[k][l].getNb())){
+						p.setHighlight(l,k,Color.GREEN);
+					}
+				}
+			}
+		}else{
+			for(int l = i[0]-1; l<=i[0]+1;l++){
+				for(int k = i[1]-1;k<=i[1]+1;k++){
+					if(tableau[l][k].isAccessible(tableau[k][l].getNb()) && ((l == i[0] && k == i[1]+1) || (l == i[0] && k == i[1]-1) || (l == i[0]-1 && k == i[1]) || (l == i[0]+1 && k == i[1]))){
+						p.setHighlight(l,k,Color.GREEN);
+					}
+				}
+			}
+		}
+	}
+
+	private void spawn(int ch, int i, int[] select) {
+		// TODO Auto-generated method stub
+		if(ch == -1){
+
+		}else{
+			if(i == 1){
+				int[] coo =	getFinal(p, select);
+
+			}else{
+				int[] coo =	getFinal(p, select);
+			}
+		}
+
 	}
 
 	public void explo(int equipe){

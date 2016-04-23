@@ -10,7 +10,8 @@ public class Parcelle {
 	private boolean cle;
 	private boolean coffre;
 	private boolean trésor;
-	
+	private boolean isVisible;
+
 	/**
 	 * Affecte un type a une parcelle
 	 * @param element
@@ -51,12 +52,24 @@ public class Parcelle {
 			setCoffre(false);
 			setTrésor(false);
 			// Explorateur Equipe 2
-			}else if(element == 7){
+		}else if(element == 7){
 			this.nb = 7;
 			setCle(false);
 			setCoffre(false);
 			setTrésor(false);
-//			Personnage explo2 = new Explorateur(2, ile)
+			//			Personnage explo2 = new Explorateur(2, ile)
+			//Voleur Equipe 1
+		}else if(element == 8){
+			this.nb = 8;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
+			//Voleur Equipe 2
+		}else if(element == 9){
+			this.nb = 9;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 			//Terre
 		}else{
 			this.nb = 5;
@@ -117,10 +130,23 @@ public class Parcelle {
 	public boolean getCle() {
 		return cle;
 	}
+	public boolean isVisible(){
+		return isVisible;
+	}
+	
+	public void setVisibility(boolean isVisible){
+		this.isVisible = isVisible;
+	}
 
 	/**
 	 */
 	public void setCle(boolean cle) {
 		this.cle = cle;
+	}
+	
+	public boolean isAccessible(int p){
+		if(p == 5){
+			return true;
+		}else return false;
 	}
 }

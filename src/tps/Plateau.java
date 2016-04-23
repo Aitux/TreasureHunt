@@ -279,6 +279,7 @@ public class Plateau {
 	public void clearHighlight() {
 		if (graphic != null) {
 			graphic.clearHighlight();
+			window.repaint();
 		}
 	}
 	/**
@@ -296,6 +297,7 @@ public class Plateau {
 	public void setHighlight(int x, int y, Color color) {
 		if (graphic != null) {
 			graphic.setHighlight(x, y, color);
+			graphic.repaint();
 		}
 	}
 	/**
@@ -308,6 +310,7 @@ public class Plateau {
 	public void resetHighlight(int x, int y) {
 		if (graphic != null) {
 			graphic.resetHighlight(x, y);
+			window.repaint();
 		}
 	}
 	/**

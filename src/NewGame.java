@@ -24,7 +24,8 @@ public class NewGame {
 		 */
 
 		while(!Menu()){}
-		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png","images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png"};
+		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png","images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png","images/1.guerrier.png",
+				"images/2.guerrier.png","images/1.piegeur.png", "images/2.piegeur.png","images/fog.png"};
 		Plateau plateau = new Plateau(img,tailleIle+2, true);
 		Ile ile = new Ile(tailleIle+2);
 		ile.setTauxRoc(tauxRocs);
@@ -32,11 +33,13 @@ public class NewGame {
 		ile.checkIle();
 		ile.addPlateau(plateau);
 		//		ile.RencontrePossible(ile.getTableau());
+		ile.weatherOnIsland();
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 		ile.initChamp();
 		//		ile.winCondition();
 		while(true){
+			ile.weatherOnIsland();
 			plateau.setJeu(ile.getTableau());
 			ile.selectCase(plateau);
 		}

@@ -71,6 +71,12 @@ public class Parcelle {
 			setCoffre(false);
 			setTrésor(false);
 			//Terre
+			
+		}else if(element == 14){
+			this.nb = 14;
+			setCle(false);
+			setCoffre(false);
+			setTrésor(false);
 		}else{
 			this.nb = 5;
 			setCle(false);

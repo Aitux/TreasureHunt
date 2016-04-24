@@ -14,7 +14,7 @@ import tps.Plateau;
  */
 public class Ile {
 
-	protected Parcelle[][] tableau;
+	protected Parcelle[][] tableau, fog, printable;
 	private static double tauxRoc = 0.1;
 	private static ArrayList<Personnage> onField = new ArrayList<>();
 	private static ArrayList<Personnage> Team1 = new ArrayList<>();
@@ -130,14 +130,14 @@ public class Ile {
 			Field[w] = p.is();
 			w++;
 		}
-		
+
 		while(!test){
 			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
 			else i++;
 		}	System.out.println("Taunty");			
-			((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
-		}
-	
+		((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
+	}
+
 
 	/**
 	 * Verifie qu'il y ait un chemin qui permet aux équipes de se rencontrer #RECURSIVITE :)
@@ -175,10 +175,8 @@ public class Ile {
 							this.tableau[i][j] = new Parcelle(1); //ROCHERS
 
 							if(i == tabRochers[nbRochers][0] && j == tabRochers[nbRochers][1]){
-								//								System.out.println("Wallah");
 								this.tableau[i][j].setCle(true);
 							}else if(i == tabRochers[nbRochers+1][0] && j == tabRochers[nbRochers+1][1]){
-								//								System.out.println("Cpasmwa");
 								this.tableau[i][j].setCoffre(true);
 								this.tableau[i][j].setTrésor(true);
 							}
@@ -193,6 +191,21 @@ public class Ile {
 				this.tableau[this.tableau.length-3][1].getNb()==1 || this.tableau[this.tableau.length-2][2].getNb()==1){
 			genererIle();
 		}
+
+		genererFog();
+	}
+
+	private void genererFog() {
+		// TODO Auto-generated method stub
+		fog = new Parcelle[tableau.length][tableau[0].length];
+		for(int i = 0; i<fog.length;i++){
+			System.out.println();
+			for(int j = 0; j<fog[0].length; j++){
+				if(i == 0 || j == 0 || i == this.fog.length-1 || j == this.fog.length-1){
+					this.fog[i][j]= new Parcelle(2); // EAU
+				}else this.fog[i][j] = new Parcelle (14); // Fog of War
+			}
+		}
 	}
 
 	/**
@@ -200,10 +213,10 @@ public class Ile {
 	 * @return int[][]
 	 */
 	public int[][] getTableau(){
-		int[][] jeu = new int[this.tableau.length][this.tableau[0].length];
-		for (int i = 0; i < this.tableau.length; i++) {
-			for (int j = 0; j < this.tableau[0].length; j++) {
-				jeu[i][j] = this.tableau[i][j].getNb();
+		int[][] jeu = new int[this.printable.length][this.printable[0].length];
+		for (int i = 0; i < this.printable.length; i++) {
+			for (int j = 0; j < this.printable[0].length; j++) {
+				jeu[i][j] = this.printable[i][j].getNb();
 			}
 
 		}
@@ -263,7 +276,8 @@ public class Ile {
 		case 10: break; // Futur Guerrier Equipe 1
 		case 11: break; // Futur Guerrier Equipe 2
 		case 12: break; // Futur Piegeur Equipe 1
-		case 13: break; // Futur Piegeur Equipe 2
+		case 13: break;// Futur Piegeur Equipe 2
+		case 14: break; // Fog of War
 		}
 	}
 
@@ -423,6 +437,30 @@ public class Ile {
 				CheckCaillasse(x1,y1,2);
 			}
 		}
+	}
+
+	public void weatherOnIsland() {
+		// TODO Auto-generated method stub
+		printable = new Parcelle[fog.length][fog[0].length];
+		for(int i = 0; i<fog.length;i++){
+			for(int j = 0;j<fog[0].length; j++){
+				if(isPresent(i,j)){
+					printable[i][j] =  tableau[i][j];
+				}else printable[i][j] = fog[i][j];
+			}
+		}
+	}
+
+	private boolean isPresent(int i, int j) {
+		// TODO Auto-generated method stub
+		if(tableau[i][j].getNb() != 2){
+			for(int k = i-1; k<=i+1; k++){
+				for(int l = j-1;l<=j+1;l++){
+					if(tableau[k][l].getNb() == 3 || tableau[k][l].getNb() == 4 || tableau[k][l].getNb() == 6 || tableau[k][l].getNb() == 7 || tableau[k][l].getNb() == 8 || tableau[k][l].getNb() == 9||tableau[k][l].getNb() == 10||tableau[k][l].getNb() == 11||tableau[k][l].getNb() == 12||tableau[k][l].getNb() == 13) return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

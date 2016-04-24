@@ -134,7 +134,7 @@ public class Ile {
 		while(!test){
 			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
 			else i++;
-		}	System.out.println("Taunty");			
+		}	//System.out.println("Taunty");			
 		((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
 	}
 
@@ -144,11 +144,13 @@ public class Ile {
 	 * @param tableauIle
 	 * @return boolean
 	 */
+	
 
-	//	public boolean RencontrePossible(int[][] tableauIle){
-	//		if()
-	//			return true;
-	//	}
+		public boolean RencontrePossible(int[][] tableauIle){
+			//TODO 
+		//	if()
+				return true;
+		}
 
 
 
@@ -196,7 +198,6 @@ public class Ile {
 	}
 
 	private void genererFog() {
-		// TODO Auto-generated method stub
 		fog = new Parcelle[tableau.length][tableau[0].length];
 		for(int i = 0; i<fog.length;i++){
 			System.out.println();
@@ -290,7 +291,6 @@ public class Ile {
 	}
 	private int navireDeb(int equipe){
 		String rang;
-		JOptionPane jop = new JOptionPane();
 		if(equipe == 1){
 			int i = 0;
 			int j = 0;
@@ -352,7 +352,6 @@ public class Ile {
 	}
 
 	private void putHighLight(int[] i, int j) {
-		// TODO Auto-generated method stub
 		if(j == 8 || j == 9 || j == 3 || j == 4){		
 			for(int l = i[0]-1; l<=i[0]+1;l++){
 				for(int k = i[1]-1;k<=i[1]+1;k++){
@@ -385,7 +384,6 @@ public class Ile {
 	}
 
 	private void spawn(int ch, int i, int[] select) {
-		// TODO Auto-generated method stub
 		if(ch == -1){
 
 		}else{
@@ -404,43 +402,54 @@ public class Ile {
 		}
 
 	}
+/**
+ * Execute les actions possible par l'explorateur Deplacer/Verifier les 
+ * @param equipe de l'explorateur qui veut faire une action
+ * @param select[] tableau d'int contenant le deuxième clique du joueur
+ */
 
-
-	public void explo(int equipe, int[] select){
+	private void explo(int equipe, int[] select){
 		int tmp;
 		if(equipe == 1){
 			int[] coo = getFinal(p, select);
 			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
-			//	System.out.println(select[0]+" "+select[1]+" -->"+coo[0]+" "+coo[1]+" go to"+this.tableau[coo[1]][coo[0]].getNb()+" from "+tableau[select[1]][select[0]].getNb());
 			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
 				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
-				//	System.out.println(tmp);
 				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 				this.tableau[select[1]][select[0]].setNb(tmp);
-				//System.out.println("Taunty");
-
-			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
-				CheckCaillasse(x1, y1,1);
-			}
-		}else {
+				
+			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))) CheckCaillasse(x1, y1,1);
+			
+		}else{
 			int[] coo = getFinal(p, select);
 			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
-			//	System.out.println(select[0]+" "+select[1]+" -->"+coo[0]+" "+coo[1]+" go to"+this.tableau[coo[1]][coo[0]].getNb()+" from "+tableau[select[1]][select[0]].getNb());
 			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
 				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
-				//	System.out.println(tmp);
 				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
-				this.tableau[select[1]][select[0]].setNb(tmp);
-				//System.out.println("Taunty");
-			}
-			else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+				this.tableau[select[1]][select[0]].setNb(tmp);				
+			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
 				CheckCaillasse(x1,y1,2);
 			}
 		}
+		int w = 0;
+		int i =0 ;
+		boolean test = false;
+		String[] Field = new String[onField.size()];
+		for(Personnage p : onField){
+			Field[w] = p.is();
+			w++;
+		}
+
+		while(!test){
+			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
+			else i++;
+		}	//System.out.println("Taunty");			
+		((Explorateur) onField.get(i)).perteEnergie(1);
+		p.println("Explo" + equipe + " energie restante = "+onField.get(i).energie);
 	}
 
+
 	public void weatherOnIsland() {
-		// TODO Auto-generated method stub
 		printable = new Parcelle[fog.length][fog[0].length];
 		for(int i = 0; i<fog.length;i++){
 			for(int j = 0;j<fog[0].length; j++){
@@ -452,7 +461,6 @@ public class Ile {
 	}
 
 	private boolean isPresent(int i, int j) {
-		// TODO Auto-generated method stub
 		if(tableau[i][j].getNb() != 2){
 			for(int k = i-1; k<=i+1; k++){
 				for(int l = j-1;l<=j+1;l++){
@@ -462,5 +470,6 @@ public class Ile {
 		}
 		return false;
 	}
+	
 
 }

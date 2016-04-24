@@ -12,6 +12,7 @@ public abstract class Personnage {
 	protected int PosY;
 	protected boolean clé;
 	protected boolean trésor;
+	protected boolean estVivant;
 	
 	public Personnage (int equipe, Ile ile){
 		this.equipe = equipe;
@@ -34,6 +35,7 @@ public abstract class Personnage {
 				}
 			}
 		}
+		this.energie = 100;
 		this.ile = ile;
 	}
 	public abstract String is();
@@ -46,4 +48,27 @@ public abstract class Personnage {
 	public void obtiensClé(){
 		clé = true;
 	}
+	
+	public void perteEnergie(int energie){
+		this.energie -= energie;
+		if(this.energie<=0){
+			 estVivant = false;
+		}
+	}
+	
+	public void gainEnergie(int energie){
+		this.energie += energie;
+		if(this.energie >= 100){
+			this.energie=100;
+		}
+	}
+	
+	public int getEnergie(){
+		return this.energie;
+	}
+	
+	public boolean getEstVivant() {
+		return this.estVivant;
+	}
+
 }

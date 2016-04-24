@@ -12,6 +12,7 @@ public class Voleur extends Personnage {
 			this.trésor = true;
 			P.trésor = false;
 		}
+		perteEnergie(10);
 	}
 	@Override
 	public String is() {

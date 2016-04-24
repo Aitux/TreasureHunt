@@ -1,12 +1,6 @@
-import java.awt.Color;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
-import tps.MyMouseEvent;
 import tps.Plateau;
 
 public class NewGame {
@@ -24,7 +18,8 @@ public class NewGame {
 		 */
 
 		while(!Menu()){}
-		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png","images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png","images/1.guerrier.png",
+		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png",
+				"images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png","images/1.guerrier.png",
 				"images/2.guerrier.png","images/1.piegeur.png", "images/2.piegeur.png","images/fog.png"};
 		Plateau plateau = new Plateau(img,tailleIle+2, true);
 		Ile ile = new Ile(tailleIle+2);
@@ -76,7 +71,7 @@ public class NewGame {
 			JOptionPane.showMessageDialog(null, null, "Rules Treasure Hunt", JOptionPane.INFORMATION_MESSAGE, ruleIc);
 			return false;
 		case 3: System.exit(0);
-		case 2: break;
+		case 2: ;break;
 		}
 		return false;
 	}

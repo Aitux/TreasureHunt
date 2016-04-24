@@ -24,7 +24,7 @@ public class Explorateur extends Personnage {
 					ile.tableau[x][y].setTrésor(false);
 					System.out.println("Le trésor est à vous, ramenez le à votre navire !");
 				}
-
+				perteEnergie(4);
 		}
 	}
 	@Override

@@ -72,7 +72,7 @@ public class NewGame {
 			return false;
 		case 3: System.exit(0);
 		case 2: ;break;
-		}
+		}//Test
 		return false;
 	}
 

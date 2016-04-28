@@ -409,30 +409,45 @@ public class Ile {
 	 */
 
 	private void explo(int equipe, int[] select){
-		int tmp;
 		if(equipe == 1){
 			deplacementExplo(select, equipe);
-			energieLost(equipe);
 		}else{
 			deplacementExplo(select, equipe);
-			energieLost(equipe);
 
 		}
+	}
+	
+	private void voleur(int equipe, int[] select){
+		if(equipe == 1){
+			deplacementVoleur(select, equipe);
+			energieLost(equipe, "Voleur");
+		}else{
+			deplacementVoleur(select, equipe);
+			energieLost(equipe, "Voleur");
+
+		}
+	}
+
+	private void deplacementVoleur(int[] select, int equipe) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void deplacementExplo(int[] select, int equipe) {
 		int tmp;
 		int[] coo = getFinal(p, select);
-		
 		int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
 		if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
 			tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
 			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 			this.tableau[select[1]][select[0]].setNb(tmp);				
 		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)))CheckCaillasse(x1,y1,equipe);
+		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2))embBateau(y, x, equipe, "Explorateur");
+		else energieLost(equipe, "Explorateur");
+
 	}
 
-	private void energieLost(int equipe) {
+	private void energieLost(int equipe, String perso) {
 		int w =0, i = 0 ;
 		boolean test = false;
 		String[] Field = new String[onField.size()];
@@ -442,15 +457,15 @@ public class Ile {
 		}
 
 		while(!test){
-			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
+			if(Field[i].equals(perso) && onField.get(i).equipe == equipe) test = true;
 			else i++;
 		}	//System.out.println("Taunty");			
-		((Explorateur) onField.get(i)).perteEnergie(1);
-		p.println("Explo" + equipe + " energie restante = "+onField.get(i).energie);
+		 onField.get(i).perteEnergie(1);
+		p.println(perso+" "+equipe + " energie restante = "+onField.get(i).energie);
 	}
 
 
-	private void embBateau(int x, int y, int e) {
+	private void embBateau(int x, int y, int e, String perso) {
 		// TODO Auto-generated method stub
 		int w = 0;
 		int i =0 ;
@@ -462,13 +477,12 @@ public class Ile {
 		}
 
 		while(!test){
-			if(Field[i].equals("Explorateur") && onField.get(i).equipe == e) test = true;
+			if(Field[i].equals(perso) && onField.get(i).equipe == e) test = true;
 			else i++;
 		}	//System.out.println("Taunty");		
-		if(e == 1) Team1.add(onField.get(i));
-		else if (e == 2) Team2.add(onField.get(i));
+		if(e == 1){ Team1.add(onField.get(i));}
+		else if (e == 2){ Team2.add(onField.get(i));}
 		onField.remove(i);
-		p.println("Explo" + e + " energie restante = "+onField.get(i).energie);
 		tableau[x][y].setNb(5);
 	}
 

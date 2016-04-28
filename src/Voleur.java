@@ -1,6 +1,6 @@
 
 public class Voleur extends Personnage {
-	Voleur(int equipe, Ile ile) {
+	Voleur(int equipe, Ile ile){
 		super(equipe, ile);
 	}
 	public void Vol(Personnage P){

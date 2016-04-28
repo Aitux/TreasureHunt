@@ -272,8 +272,8 @@ public class Ile {
 		case 5: break; // Terre
 		case 6: explo(1, select); break; // Explorateur Equipe 1
 		case 7: explo(2, select); break; // Explorateur Equipe 1
-		case 8: break; // Futur Voleur Equipe 1
-		case 9: break; // Futur Voleur Equipe 2
+		case 8: voleur(1,select); break; // Futur Voleur Equipe 1
+		case 9: voleur(2,select);break; // Futur Voleur Equipe 2
 		case 10: break; // Futur Guerrier Equipe 1
 		case 11: break; // Futur Guerrier Equipe 2
 		case 12: break; // Futur Piegeur Equipe 1
@@ -413,24 +413,29 @@ public class Ile {
 			deplacementExplo(select, equipe);
 		}else{
 			deplacementExplo(select, equipe);
-
 		}
 	}
 	
 	private void voleur(int equipe, int[] select){
 		if(equipe == 1){
 			deplacementVoleur(select, equipe);
-			energieLost(equipe, "Voleur");
 		}else{
 			deplacementVoleur(select, equipe);
-			energieLost(equipe, "Voleur");
-
 		}
 	}
 
 	private void deplacementVoleur(int[] select, int equipe) {
 		// TODO Auto-generated method stub
-		
+		int tmp;
+		int[] coo = getFinal(p, select);
+		int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
+		if(this.tableau[coo[1]][coo[0]].getNb() == 5 && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)){
+			tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
+			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
+			this.tableau[select[1]][select[0]].setNb(tmp);
+		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))) vol(x1,y1,equipe); 
+		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) embBateau(y, x, equipe, "Voleur");
+		else energieLost(equipe, "Voleur");
 	}
 
 	private void deplacementExplo(int[] select, int equipe) {
@@ -442,11 +447,28 @@ public class Ile {
 			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 			this.tableau[select[1]][select[0]].setNb(tmp);				
 		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)))CheckCaillasse(x1,y1,equipe);
-		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2))embBateau(y, x, equipe, "Explorateur");
+		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) embBateau(y, x, equipe, "Explorateur");
 		else energieLost(equipe, "Explorateur");
 
 	}
+	private void vol(int x1, int y1, int equipe){
+		int w = 0;
+		int i =0 ;
+		boolean test = false;
+		String[] Field = new String[onField.size()];
+		for(Personnage p : onField){
+			Field[w] = p.is();
+			w++;
+		}
 
+		while(!test){
+			if(Field[i].equals("Explorateur") && onField.get(i).equipe == equipe) test = true;
+			else i++;
+		}	//System.out.println("Taunty");			
+		((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
+	}
+	
+	
 	private void energieLost(int equipe, String perso) {
 		int w =0, i = 0 ;
 		boolean test = false;
@@ -467,6 +489,7 @@ public class Ile {
 
 	private void embBateau(int x, int y, int e, String perso) {
 		// TODO Auto-generated method stub
+		System.out.println(perso);
 		int w = 0;
 		int i =0 ;
 		boolean test = false;
@@ -475,11 +498,12 @@ public class Ile {
 			Field[w] = p.is();
 			w++;
 		}
-
+		
 		while(!test){
 			if(Field[i].equals(perso) && onField.get(i).equipe == e) test = true;
 			else i++;
-		}	//System.out.println("Taunty");		
+		}	//System.out.println("Taunty");	
+		
 		if(e == 1){ Team1.add(onField.get(i));}
 		else if (e == 2){ Team2.add(onField.get(i));}
 		onField.remove(i);

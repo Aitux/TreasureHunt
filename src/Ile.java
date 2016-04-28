@@ -144,13 +144,13 @@ public class Ile {
 	 * @param tableauIle
 	 * @return boolean
 	 */
-	
 
-		public boolean RencontrePossible(int[][] tableauIle){
-			//TODO 
+
+	public boolean RencontrePossible(int[][] tableauIle){
+		//TODO 
 		//	if()
-				return true;
-		}
+		return true;
+	}
 
 
 
@@ -402,11 +402,11 @@ public class Ile {
 		}
 
 	}
-/**
- * Execute les actions possible par l'explorateur Deplacer/Verifier les 
- * @param equipe de l'explorateur qui veut faire une action
- * @param select[] tableau d'int contenant le deuxième clique du joueur
- */
+	/**
+	 * Execute les actions possible par l'explorateur Deplacer/Verifier les 
+	 * @param equipe de l'explorateur qui veut faire une action
+	 * @param select[] tableau d'int contenant le deuxième clique du joueur
+	 */
 
 	private void explo(int equipe, int[] select){
 		int tmp;
@@ -417,9 +417,9 @@ public class Ile {
 				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
 				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 				this.tableau[select[1]][select[0]].setNb(tmp);
-				
+
 			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))) CheckCaillasse(x1, y1,1);
-			
+
 		}else{
 			int[] coo = getFinal(p, select);
 			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
@@ -449,27 +449,50 @@ public class Ile {
 	}
 
 
-	public void weatherOnIsland() {
-		printable = new Parcelle[fog.length][fog[0].length];
-		for(int i = 0; i<fog.length;i++){
-			for(int j = 0;j<fog[0].length; j++){
-				if(isPresent(i,j)){
-					printable[i][j] =  tableau[i][j];
-				}else printable[i][j] = fog[i][j];
+	public void weatherOnIslandByTeam(int equipe) {
+		int e = equipe % 2;
+		if(e == 0){
+			printable = new Parcelle[fog.length][fog[0].length];
+			for(int i = 0; i<fog.length;i++){
+				for(int j = 0;j<fog[0].length; j++){
+					if(isPresent(i,j,e)){
+						printable[i][j] =  tableau[i][j];
+					}else printable[i][j] = fog[i][j];
+
+				}
+			}
+		} else if(e == 1){
+			printable = new Parcelle[fog.length][fog[0].length];
+			for(int i = 0; i<fog.length;i++){
+				for(int j = 0;j<fog[0].length; j++){
+					if(isPresent(i,j,e)){
+						printable[i][j] =  tableau[i][j];
+					}else printable[i][j] = fog[i][j];
+
+				}
 			}
 		}
 	}
 
-	private boolean isPresent(int i, int j) {
-		if(tableau[i][j].getNb() != 2){
-			for(int k = i-1; k<=i+1; k++){
-				for(int l = j-1;l<=j+1;l++){
-					if(tableau[k][l].getNb() == 3 || tableau[k][l].getNb() == 4 || tableau[k][l].getNb() == 6 || tableau[k][l].getNb() == 7 || tableau[k][l].getNb() == 8 || tableau[k][l].getNb() == 9||tableau[k][l].getNb() == 10||tableau[k][l].getNb() == 11||tableau[k][l].getNb() == 12||tableau[k][l].getNb() == 13) return true;
+	private boolean isPresent(int i, int j, int e) {
+		if(e == 0){
+			if(tableau[i][j].getNb() != 2){
+				for(int k = i-1; k<=i+1; k++){
+					for(int l = j-1;l<=j+1;l++){
+						if(tableau[k][l].getNb() == 3 || tableau[k][l].getNb() == 6 ||  tableau[k][l].getNb() == 8 || tableau[k][l].getNb() == 10|| tableau[k][l].getNb() == 12) return true;
+					}
 				}
 			}
 		}
+		if(e == 1){
+			if(tableau[i][j].getNb() != 2){
+				for(int k = i-1; k<=i+1; k++){
+					for(int l = j-1;l<=j+1;l++){
+						if(tableau[k][l].getNb() == 4 || tableau[k][l].getNb() == 7 ||  tableau[k][l].getNb() == 9 || tableau[k][l].getNb() == 11|| tableau[k][l].getNb() == 13) return true;
+
+					}}}}
 		return false;
 	}
-	
+
 
 }

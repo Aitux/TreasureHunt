@@ -1,16 +1,21 @@
 package tps;
+// Simon "Aitux" Vandeputte
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-
+import javax.swing.JPanel;
 /**
  * La classe Plateau permet d'afficher un plateau de Jeu carré
  * sur lequel sont disposés des images représentant les éléments du jeu
@@ -24,6 +29,7 @@ public class Plateau {
 	private JFrame window ;
 	private GraphicPane graphic ;
 	private ConsolePane console ;
+	private JPanel panel;
 	/**
 	 *  Attribut ou est enregistré un événement observé. Cet attribut est
 	 * initialisé à null au début de la scrutation et rempli par l'événement observé 
@@ -102,24 +108,37 @@ public class Plateau {
 	 * @param withTextArea Indique si une zone de texte doit être affichée.
 	 */
 	public Plateau(String[] gif,int taille, boolean withTextArea){
+	//	Dimension dimension = new Dimension(taille * 55 +150, taille*60);
 		// Instancie la fenetre principale et et les deux composants.
+		panel = new JPanel();
 		window = new JFrame() ;
 		graphic = new GraphicPane(gif, taille) ;
 		console = null ;
-
+		
 		// Caractéristiques initiales pour la fenetre.
 		window.setTitle("Plateau de jeu ("+taille+"X"+taille+")");
 		window.setLocationRelativeTo(null);
 		window.setLayout(new BorderLayout());
+	//	window.setPreferredSize(dimension);
 		// La fermeture de la fenetre ne fait que la cacher. 
 		// cf Javadoc setDefaultCloseOperation
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		JButton bouton = new JButton("Passer son tour");
+//		panel.add(bouton);
+		bouton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+//				NewGame.setBoolean(true);
+			}
+		});
 		// Ajout des deux composants à la fenetre
-		window.getContentPane().add(graphic, BorderLayout.NORTH);
+		window.getContentPane().add(panel, BorderLayout.EAST);
+		window.getContentPane().add(graphic, BorderLayout.WEST);
 		if (withTextArea) {
 			console = new ConsolePane() ;
-			window.getContentPane().add(console) ;
+			window.getContentPane().add(console, BorderLayout.SOUTH) ;
 		}
 		resizeFromGraphic() ;
 
@@ -325,6 +344,8 @@ public class Plateau {
 	/**
 	 * Efface l'affichage de tout texte dans la partie graphique.
 	 */
+
+	
 	public void clearText() {
 		graphic.clearText() ;
 	}

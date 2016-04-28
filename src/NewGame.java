@@ -1,18 +1,22 @@
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
 import tps.Plateau;
 
 public class NewGame {
 	private Icon icon, ruleIc;
 	private static Integer tailleIle = new Integer(10);
 	private static double tauxRocs;
+	private static boolean test;
 
 
 	/**
 	 * Le constructeur gère le lancement de la partie.
 	 */
 	public NewGame(){
+		test = true;
+		int equipe = 0;
 		/**
 		 * Attention tailleIle prend en compte l'eau (i.e. que une ile de 15 ne fera que 13 de large + 1 d'eau de chaque coté)
 		 */
@@ -21,25 +25,35 @@ public class NewGame {
 		String[] img = new String[] {"images/rocher.png","images/mer.png","images/1.navire.png","images/2.navire.png","images/arbre.png","images/1.explorateur.png",
 				"images/2.explorateur.png","images/1.voleur.png","images/2.voleur.png","images/1.guerrier.png",
 				"images/2.guerrier.png","images/1.piegeur.png", "images/2.piegeur.png","images/fog.png"};
-		Plateau plateau = new Plateau(img,tailleIle+2, true);
+		Plateau plateau = new Plateau(img,tailleIle+2, false);
 		Ile ile = new Ile(tailleIle+2);
 		ile.setTauxRoc(tauxRocs);
 		ile.genererIle();
 		ile.checkIle();
 		ile.addPlateau(plateau);
-		//		ile.RencontrePossible(ile.getTableau());
-		ile.weatherOnIsland();
+//		ile.RencontrePossible(ile.getTableau());
+		ile.weatherOnIslandByTeam(equipe);
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 		ile.initChamp();
-		//		ile.winCondition();
+//		ile.winCondition();
 		while(true){
-			ile.weatherOnIsland();
+
+			while(test){
+			int[][] comp1 = ile.getTableau();
 			plateau.setJeu(ile.getTableau());
 			ile.selectCase(plateau);
+			int[][] comp2 = ile.getTableau();
+			ile.weatherOnIslandByTeam(equipe);
+			if(!compareTableau(comp1, comp2)) test = false; 
+			}
+			
+			equipe++;
+			test = true;
+			
+			ile.weatherOnIslandByTeam(equipe);	
 		}
 	}
-
 
 
 
@@ -71,10 +85,30 @@ public class NewGame {
 			JOptionPane.showMessageDialog(null, null, "Rules Treasure Hunt", JOptionPane.INFORMATION_MESSAGE, ruleIc);
 			return false;
 		case 3: System.exit(0);
-		case 2: ;break;
-		}//Test
+		case 2: break;
+		}
 		return false;
 	}
 
-
+	private boolean compareTableau(int[][] t1, int[][] t2){
+	//	System.out.println(tableauToString(t2));
+	//	System.out.println(tableauToString(t1));
+		for(int i = 0; i<t1.length;i++){
+			for(int j = 0 ; j<t1[0].length;j++){
+				if(t1[i][j]!=t2[i][j]) return false;
+			}
+		}
+		return true;
+		
+	}
+	public String tableauToString(int[][] t1){
+		String s = "";
+		for(int i = 0; i<t1.length;i++){
+			s += "\n";
+			for(int j = 0 ; j<t1[0].length;j++){
+				s+=t1[i][j]+ "|";
+			}
+		}
+		return s;
+	}
 }

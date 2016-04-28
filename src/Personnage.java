@@ -42,6 +42,7 @@ public abstract class Personnage {
 	
 	public abstract int isTeam();
 
+	
 	public void obtiensTrésor(){
 		trésor = true;
 	}

@@ -1,5 +1,4 @@
 package tps;
-// Simon "Aitux" Vandeputte
 
 
 import java.awt.BorderLayout;
@@ -29,7 +28,6 @@ public class Plateau {
 	private JFrame window ;
 	private GraphicPane graphic ;
 	private ConsolePane console ;
-	private JPanel panel;
 	/**
 	 *  Attribut ou est enregistré un événement observé. Cet attribut est
 	 * initialisé à null au début de la scrutation et rempli par l'événement observé 
@@ -110,7 +108,6 @@ public class Plateau {
 	public Plateau(String[] gif,int taille, boolean withTextArea){
 	//	Dimension dimension = new Dimension(taille * 55 +150, taille*60);
 		// Instancie la fenetre principale et et les deux composants.
-		panel = new JPanel();
 		window = new JFrame() ;
 		graphic = new GraphicPane(gif, taille) ;
 		console = null ;
@@ -123,19 +120,9 @@ public class Plateau {
 		// La fermeture de la fenetre ne fait que la cacher. 
 		// cf Javadoc setDefaultCloseOperation
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JButton bouton = new JButton("Passer son tour");
 //		panel.add(bouton);
-		bouton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-//				NewGame.setBoolean(true);
-			}
-		});
 		// Ajout des deux composants à la fenetre
-		window.getContentPane().add(panel, BorderLayout.EAST);
-		window.getContentPane().add(graphic, BorderLayout.WEST);
+		window.getContentPane().add(graphic, BorderLayout.NORTH);
 		if (withTextArea) {
 			console = new ConsolePane() ;
 			window.getContentPane().add(console, BorderLayout.SOUTH) ;

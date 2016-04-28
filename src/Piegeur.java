@@ -6,14 +6,14 @@ public class Piegeur extends Personnage{
 	}
 public void CreuserPiege(int x,int y){
 	if(ile.tableau[x][y].getNb() == 5){
-	//	ile.tableau[x][y].setNb(nb);
+		ile.tableau[x][y].setNb(15);
 	}
 }
 public void BoucherPiege(int x,int y){
-	// if(ile.tableau[x][y].getNb() == nb){       nb = Parcelle piege
+	 if(ile.tableau[x][y].getNb() == 15){
 	ile.tableau[x][y].setNb(5);
 	}
-//}
+}
 	@Override
 	public String is() {
 		return "Piegeur";

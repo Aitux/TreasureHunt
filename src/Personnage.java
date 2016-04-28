@@ -13,6 +13,7 @@ public abstract class Personnage {
 	protected boolean clé;
 	protected boolean trésor;
 	protected boolean estVivant;
+	protected int piege;
 	
 	public Personnage (int equipe, Ile ile){
 		this.equipe = equipe;

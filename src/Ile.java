@@ -411,28 +411,29 @@ public class Ile {
 	private void explo(int equipe, int[] select){
 		int tmp;
 		if(equipe == 1){
-			int[] coo = getFinal(p, select);
-			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
-			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
-				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
-				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
-				this.tableau[select[1]][select[0]].setNb(tmp);
-
-			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))) CheckCaillasse(x1, y1,1);
-
+			deplacementExplo(select, equipe);
+			energieLost(equipe);
 		}else{
-			int[] coo = getFinal(p, select);
-			int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
-			if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
-				tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
-				this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
-				this.tableau[select[1]][select[0]].setNb(tmp);				
-			}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
-				CheckCaillasse(x1,y1,2);
-			}
+			deplacementExplo(select, equipe);
+			energieLost(equipe);
+
 		}
-		int w = 0;
-		int i =0 ;
+	}
+
+	private void deplacementExplo(int[] select, int equipe) {
+		int tmp;
+		int[] coo = getFinal(p, select);
+		
+		int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
+		if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))){
+			tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
+			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
+			this.tableau[select[1]][select[0]].setNb(tmp);				
+		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)))CheckCaillasse(x1,y1,equipe);
+	}
+
+	private void energieLost(int equipe) {
+		int w =0, i = 0 ;
 		boolean test = false;
 		String[] Field = new String[onField.size()];
 		for(Personnage p : onField){
@@ -449,7 +450,29 @@ public class Ile {
 	}
 
 
-	public void weatherOnIslandByTeam(int equipe) {
+	private void embBateau(int x, int y, int e) {
+		// TODO Auto-generated method stub
+		int w = 0;
+		int i =0 ;
+		boolean test = false;
+		String[] Field = new String[onField.size()];
+		for(Personnage p : onField){
+			Field[w] = p.is();
+			w++;
+		}
+
+		while(!test){
+			if(Field[i].equals("Explorateur") && onField.get(i).equipe == e) test = true;
+			else i++;
+		}	//System.out.println("Taunty");		
+		if(e == 1) Team1.add(onField.get(i));
+		else if (e == 2) Team2.add(onField.get(i));
+		onField.remove(i);
+		p.println("Explo" + e + " energie restante = "+onField.get(i).energie);
+		tableau[x][y].setNb(5);
+	}
+
+	public void weatherOnIslandByTeam(int equipe){
 		int e = equipe % 2;
 		if(e == 0){
 			printable = new Parcelle[fog.length][fog[0].length];

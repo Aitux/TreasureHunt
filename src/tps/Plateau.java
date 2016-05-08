@@ -62,6 +62,7 @@ public class Plateau {
 	 * @author place
 	 *
 	 */
+	
 	private class Key implements KeyListener {
 		@Override
 		public void keyPressed(KeyEvent event) {
@@ -212,6 +213,9 @@ public class Plateau {
 			}
 			time += 100 ;
 		}
+	//	try{
+		//	MouseEvent e = (MouseEvent) currentEvent;
+	//	} catch( )
 		return currentEvent ;
 	}
 	/**
@@ -266,6 +270,10 @@ public class Plateau {
 		if (console != null) {
 			console.println(message) ;
 		}
+	}
+	
+	public void clear(){
+		console.clear();
 	}
 	// Note la taille initiale est calculée d'après la taille du graphique.
 	private void resizeFromGraphic() {

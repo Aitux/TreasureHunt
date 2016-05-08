@@ -1,14 +1,11 @@
 package tps;
 
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Stroke;
 import java.awt.event.MouseEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -19,7 +16,7 @@ import javax.swing.JPanel;
  * @author M2103-Team
  */
 class GraphicPane extends JPanel {
-	private static final String ERR_NOT_INIT_MSG = "jeu non initialisé" ;
+	private static final String ERR_NOT_INIT_MSG = "jeu non initialis�" ;
 	private static final long serialVersionUID = 2L;
 	private int nbImages;
 	private int nbLig ; // taille (en nombre de lignes). par défaut: paramètre taille du constructeur.
@@ -48,7 +45,7 @@ class GraphicPane extends JPanel {
 		if (gif!=null){
 			nbImages=gif.length;
 			images=new ImageIcon[nbImages];	
-			for (int i=0;i<nbImages;i++) images[i]=new ImageIcon(gif[i]);
+			for (int i=0;i<nbImages;i++)images[i]=new ImageIcon(gif[i]);
 			dimImage=images[0].getIconHeight()+2;
 			setGraphicSize() ;
 			this.setBackground(Color.LIGHT_GRAY);

@@ -20,6 +20,7 @@ public class Ile {
 	private static ArrayList<Personnage> Team1 = new ArrayList<>();
 	private static ArrayList<Personnage> Team2 = new ArrayList<>();
 	private Plateau p;
+	private int joueur;
 
 	/**
 	 * Genere les coordonnees des rochers ainsi que leur nombre voulu
@@ -239,8 +240,13 @@ public class Ile {
 		int[] coo = new int[2];
 		s.println("Séléctionnez une case");
 		InputEvent event = s.waitEvent();
-		coo[0]= s.getX((MouseEvent)	event);
-		coo[1]= s.getY((MouseEvent) event);
+		try{
+			coo[0]= s.getX((MouseEvent)	event);
+			coo[1]= s.getY((MouseEvent) event);
+		} catch(ClassCastException e){
+			p.clear();
+			p.println("Veuillez ne pas utiliser le clavier svp !");
+		}
 		return coo;
 	}
 	/**
@@ -261,27 +267,48 @@ public class Ile {
 	 * Lance une action différente en fonction de l'endroit ou à cliqué le joueur
 	 * @param s
 	 */
-	public void selectCase(Plateau s){
-		int[] select = getCase(s);
-		switch(isSelected(select)){
-		case 0: break; // Rien
-		case 1: break; // Rocher
-		case 2: break; // Eau
-		case 3: int ch = navireDeb(1);spawn(ch, 1, select); break; // Navire Equipe 1
-		case 4: int ch1 = navireDeb(2);spawn(ch1,2, select); break; // Navire Equipe 2
-		case 5: break; // Terre
-		case 6: explo(1, select); break; // Explorateur Equipe 1
-		case 7: explo(2, select); break; // Explorateur Equipe 1
-		case 8: voleur(1,select); break; // Futur Voleur Equipe 1
-		case 9: voleur(2,select);break; // Futur Voleur Equipe 2
-		case 10: break; // Futur Guerrier Equipe 1
-		case 11: break; // Futur Guerrier Equipe 2
-		case 12: break; // Futur Piegeur Equipe 1
-		case 13: break;// Futur Piegeur Equipe 2
-		case 14: break; // Fog of War
+	public void caseClicked(Plateau s){
+		if(joueur == 0){
+			int[] select = getCase(s);
+			switch(isSelected(select)){
+			case 0: break; // Rien
+			case 1: break; // Rocher
+			case 2: break; // Eau
+			case 3: int ch = navireDeb(1);spawn(ch, 1, select); break; // Navire Equipe 1
+			case 4: break; // Navire Equipe 2
+			case 5: break; // Terre
+			case 6: explo(1, select); break; // Explorateur Equipe 1
+			case 7: break; // Explorateur Equipe 1
+			case 8: voleur(1,select); break; // Futur Voleur Equipe 1
+			case 9:  break; // Futur Voleur Equipe 2
+			case 10: break; // Futur Guerrier Equipe 1
+			case 11: break; // Futur Guerrier Equipe 2
+			case 12: break; // Futur Piegeur Equipe 1
+			case 13: break;// Futur Piegeur Equipe 2
+			case 14: break; // Fog of War
+			}
+		}else if(joueur == 1){
+			int[] select = getCase(s);
+			switch(isSelected(select)){
+			case 0: break; // Rien
+			case 1: break; // Rocher
+			case 2: break; // Eau
+			case 3: break; // Navire Equipe 1
+			case 4: int ch1 = navireDeb(2);spawn(ch1,2, select); break; // Navire Equipe 2
+			case 5: break; // Terre
+			case 6: break; // Explorateur Equipe 1
+			case 7: explo(2, select); break; // Explorateur Equipe 1
+			case 8: break; // Futur Voleur Equipe 1
+			case 9: voleur(2,select);break; // Futur Voleur Equipe 2
+			case 10: break; // Futur Guerrier Equipe 1
+			case 11: break; // Futur Guerrier Equipe 2
+			case 12: break; // Futur Piegeur Equipe 1
+			case 13: break;// Futur Piegeur Equipe 2
+			case 14: break; // Fog of War	
+			}
 		}
-	}
 
+	}
 	private int isSelected(int[] s){
 		return tableau[s[1]][s[0]].getNb();
 	}
@@ -409,35 +436,41 @@ public class Ile {
 	 */
 
 	private void explo(int equipe, int[] select){
-		if(equipe == 1){
 			deplacementExplo(select, equipe);
-		}else{
-			deplacementExplo(select, equipe);
-		}
 	}
-	
+
 	private void voleur(int equipe, int[] select){
-		if(equipe == 1){
-			deplacementVoleur(select, equipe);
-		}else{
 			deplacementVoleur(select, equipe);
 		}
-	}
 
 	private void deplacementVoleur(int[] select, int equipe) {
 		// TODO Auto-generated method stub
 		int tmp;
 		int[] coo = getFinal(p, select);
 		int x1 = coo[0], y1 = coo[1], x = select[0], y = select[1];
-		if(this.tableau[coo[1]][coo[0]].getNb() == 5 && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)){
+		if(this.tableau[coo[1]][coo[0]].getNb() == 5 && ((x1 == x+1 ) || (x1 == x-1) || (y1 == y+1)|| (y1 == y-1))){
 			tmp = this.tableau[coo[1]][coo[0]].getNb(); //						
 			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 			this.tableau[select[1]][select[0]].setNb(tmp);
 		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1))) vol(x1,y1,equipe); 
-		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) embBateau(y, x, equipe, "Voleur");
+		if(((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)) embBateau(y, x, equipe, "Voleur");
 		else energieLost(equipe, "Voleur");
 	}
-
+	
+	public boolean GGWP(){
+		if(joueur == 0){
+			for(Personnage p : Team1){
+				if(p.trésor) return true;
+			}
+		}else{
+			for(Personnage p : Team2){
+				if(p.trésor) return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	private void deplacementExplo(int[] select, int equipe) {
 		int tmp;
 		int[] coo = getFinal(p, select);
@@ -447,7 +480,7 @@ public class Ile {
 			this.tableau[coo[1]][coo[0]].setNb(this.tableau[select[1]][select[0]].getNb());
 			this.tableau[select[1]][select[0]].setNb(tmp);				
 		}else if(this.tableau[coo[1]][coo[0]].getNb() == 1 && ((x1 == x+1 && y1 == y) || (x1 == x-1 && y1 == y) || (x1 == x && y1 == y+1) || (x1 == x && y1 == y-1)))CheckCaillasse(x1,y1,equipe);
-		if((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) embBateau(y, x, equipe, "Explorateur");
+		if(((tableau[y1][x1].getNb()  == 3 && equipe == 1) || (tableau[y1][x1].getNb()== 4 && equipe == 2)) && (coo[0]==select[0]+1 || coo[0] == select[0] || coo[0]==select[0]-1)) embBateau(y, x, equipe, "Explorateur");
 		else energieLost(equipe, "Explorateur");
 
 	}
@@ -467,8 +500,8 @@ public class Ile {
 		}	//System.out.println("Taunty");			
 		((Explorateur) onField.get(i)).SouleverRocher(y1, x1); 
 	}
-	
-	
+
+
 	private void energieLost(int equipe, String perso) {
 		int w =0, i = 0 ;
 		boolean test = false;
@@ -482,7 +515,7 @@ public class Ile {
 			if(Field[i].equals(perso) && onField.get(i).equipe == equipe) test = true;
 			else i++;
 		}	//System.out.println("Taunty");			
-		 onField.get(i).perteEnergie(1);
+		onField.get(i).perteEnergie(1);
 		p.println(perso+" "+equipe + " energie restante = "+onField.get(i).energie);
 	}
 
@@ -498,20 +531,22 @@ public class Ile {
 			Field[w] = p.is();
 			w++;
 		}
-		
+
 		while(!test){
 			if(Field[i].equals(perso) && onField.get(i).equipe == e) test = true;
 			else i++;
 		}	//System.out.println("Taunty");	
-		
+
 		if(e == 1){ Team1.add(onField.get(i));}
 		else if (e == 2){ Team2.add(onField.get(i));}
 		onField.remove(i);
 		tableau[x][y].setNb(5);
 	}
-
-	public void weatherOnIslandByTeam(int equipe){
-		int e = equipe % 2;
+	public void println(String s){
+		p.println(s);
+	}
+	public void weatherOnIslandByTeam(){
+		int e = joueur % 2;
 		if(e == 0){
 			printable = new Parcelle[fog.length][fog[0].length];
 			for(int i = 0; i<fog.length;i++){
@@ -534,7 +569,13 @@ public class Ile {
 			}
 		}
 	}
-
+	/**
+	 * Verifie le positionnement de tout les objets essentiels au jeu 
+	 * @param i
+	 * @param j
+	 * @param e
+	 * @return boolean
+	 */
 	private boolean isPresent(int i, int j, int e) {
 		if(e == 0){
 			if(tableau[i][j].getNb() != 2){
@@ -555,5 +596,12 @@ public class Ile {
 		return false;
 	}
 
-
+	public void setJoueur(int i){
+		int e = i%2;
+		this.joueur = e;
+	}
+	
+	private boolean isClose(int x, int y, int x1, int y1){
+		return false;
+	}
 }

@@ -6,8 +6,8 @@ import tps.Plateau;
 
 public class NewGame {
 	private Icon icon, ruleIc;
-	private static Integer tailleIle = new Integer(10);
-	private static double tauxRocs;
+	private Integer tailleIle = new Integer(10);
+	private double tauxRocs;
 	private static boolean test;
 
 
@@ -32,27 +32,34 @@ public class NewGame {
 		ile.checkIle();
 		ile.addPlateau(plateau);
 //		ile.RencontrePossible(ile.getTableau());
-		ile.weatherOnIslandByTeam(equipe);
+		ile.weatherOnIslandByTeam();
 		plateau.setJeu(ile.getTableau());
 		plateau.affichage();
 		ile.initChamp();
 //		ile.winCondition();
-		while(true){
-
+		while(!WellMet(equipe, ile)){
+			ile.setJoueur(equipe);
+			ile.weatherOnIslandByTeam();	
 			while(test){
 			int[][] comp1 = ile.getTableau();
 			plateau.setJeu(ile.getTableau());
-			ile.selectCase(plateau);
+			ile.caseClicked(plateau);
 			int[][] comp2 = ile.getTableau();
-			ile.weatherOnIslandByTeam(equipe);
+			ile.weatherOnIslandByTeam();
 			if(!compareTableau(comp1, comp2)) test = false; 
 			}
-			
 			equipe++;
 			test = true;
-			
-			ile.weatherOnIslandByTeam(equipe);	
 		}
+		JOptionPane.showMessageDialog(null, "Le joueur "+((equipe%2)+1)+"a gagné !");
+	}
+
+
+
+	private boolean WellMet(int equipe, Ile ile) {
+		// TODO Auto-generated method stub
+		if(ile.GGWP()) return true;
+		return false;
 	}
 
 

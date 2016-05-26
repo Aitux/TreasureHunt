@@ -1,3 +1,4 @@
+package src;
 
 /**
  * Class qui cree et gere les differents types de parcelles

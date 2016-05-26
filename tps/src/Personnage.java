@@ -1,3 +1,4 @@
+package src;
 /**
  * Class pour la gestion des personnages
  * @author Simon, Valentin et Emeline

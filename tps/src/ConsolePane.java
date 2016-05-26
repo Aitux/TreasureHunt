@@ -1,4 +1,5 @@
-package tps;
+package src;
+
 
 
 import javax.swing.JScrollBar;

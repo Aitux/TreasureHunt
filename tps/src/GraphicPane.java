@@ -1,4 +1,5 @@
-package tps;
+package src;
+
 
 
 import java.awt.Color;
@@ -45,7 +46,12 @@ class GraphicPane extends JPanel {
 		if (gif!=null){
 			nbImages=gif.length;
 			images=new ImageIcon[nbImages];	
-			for (int i=0;i<nbImages;i++)images[i]=new ImageIcon(gif[i]);
+			for (int i=0;i<nbImages;i++){
+				   java.net.URL imageURL = GraphicPane.class.getResource(gif[i]);
+				   if (imageURL != null) {
+				      images[i] = new ImageIcon(imageURL);
+				   } else{System.out.println(images[i]);}
+			}
 			dimImage=images[0].getIconHeight()+2;
 			setGraphicSize() ;
 			this.setBackground(Color.LIGHT_GRAY);
@@ -97,6 +103,7 @@ class GraphicPane extends JPanel {
 				while ((h<size.height) && (lig < nbLig)) {
 					while ((w<size.width) && (col < nbCol)) {
 						if (jeu[col][lig]!=0) {
+							System.out.println(col +   "  " + lig + " " + jeu[col][lig]);
 							g.drawImage(images[jeu[col][lig]-1].getImage(),w,h,null);
 						} else {
 							g.drawRect(w-1, h-1, dimImage-2, dimImage-2);
